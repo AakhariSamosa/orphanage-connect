@@ -1,115 +1,41 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, Filter, Utensils, Shirt, GraduationCap, Heart, Package, Sparkles, ArrowRight } from "lucide-react";
+import { Search, Utensils, Shirt, GraduationCap, Heart, Package, Sparkles, ArrowRight, Loader2 } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNeeds, type ChildrenNeed } from "@/hooks/useNeeds";
+import type { Database } from "@/integrations/supabase/types";
+
+type NeedCategory = Database['public']['Enums']['need_category'];
 
 const categories = [
   { id: "all", name: "All Needs", icon: Package },
   { id: "food", name: "Food & Nutrition", icon: Utensils },
-  { id: "clothes", name: "Clothes", icon: Shirt },
+  { id: "clothing", name: "Clothes", icon: Shirt },
   { id: "education", name: "Education", icon: GraduationCap },
-  { id: "health", name: "Healthcare", icon: Heart },
-  { id: "essentials", name: "Daily Essentials", icon: Sparkles },
-];
-
-const needsData = [
-  {
-    id: 1,
-    category: "food",
-    title: "Monthly Rice Supply",
-    description: "50 kg rice needed for monthly meals for all children",
-    quantity: "50 kg",
-    urgency: "high",
-    progress: 60,
-    cost: 2500,
-  },
-  {
-    id: 2,
-    category: "clothes",
-    title: "Winter Sweaters",
-    description: "Warm sweaters for children aged 8-14 years",
-    quantity: "30 pieces",
-    urgency: "high",
-    progress: 25,
-    cost: 9000,
-  },
-  {
-    id: 3,
-    category: "education",
-    title: "School Notebooks",
-    description: "Notebooks for the new academic year",
-    quantity: "200 notebooks",
-    urgency: "medium",
-    progress: 40,
-    cost: 4000,
-  },
-  {
-    id: 4,
-    category: "health",
-    title: "First Aid Supplies",
-    description: "Basic first aid kit supplies and medicines",
-    quantity: "Complete kit",
-    urgency: "medium",
-    progress: 80,
-    cost: 3000,
-  },
-  {
-    id: 5,
-    category: "food",
-    title: "Cooking Oil",
-    description: "Monthly supply of cooking oil for kitchen",
-    quantity: "20 liters",
-    urgency: "medium",
-    progress: 50,
-    cost: 3000,
-  },
-  {
-    id: 6,
-    category: "essentials",
-    title: "Toiletries Pack",
-    description: "Soap, toothpaste, shampoo for all children",
-    quantity: "150 sets",
-    urgency: "low",
-    progress: 70,
-    cost: 7500,
-  },
-  {
-    id: 7,
-    category: "education",
-    title: "Art Supplies",
-    description: "Colors, brushes, drawing sheets for art classes",
-    quantity: "50 sets",
-    urgency: "low",
-    progress: 20,
-    cost: 5000,
-  },
-  {
-    id: 8,
-    category: "clothes",
-    title: "School Uniforms",
-    description: "Complete uniform sets for new admissions",
-    quantity: "25 sets",
-    urgency: "high",
-    progress: 35,
-    cost: 12500,
-  },
+  { id: "healthcare", name: "Healthcare", icon: Heart },
+  { id: "daily_essentials", name: "Daily Essentials", icon: Sparkles },
 ];
 
 const Needs = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  
+  const { data: needs, isLoading } = useNeeds(
+    selectedCategory !== "all" ? selectedCategory as NeedCategory : undefined
+  );
 
-  const filteredNeeds = needsData.filter((need) => {
-    const matchesCategory = selectedCategory === "all" || need.category === selectedCategory;
+  const filteredNeeds = needs?.filter((need) => {
     const matchesSearch = need.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      need.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+      (need.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false);
+    return matchesSearch;
+  }) || [];
 
   const getUrgencyStyles = (urgency: string) => {
     switch (urgency) {
+      case "critical":
+        return "bg-destructive text-destructive-foreground";
       case "high":
         return "bg-destructive/10 text-destructive";
       case "medium":
@@ -117,6 +43,25 @@ const Needs = () => {
       default:
         return "bg-muted text-muted-foreground";
     }
+  };
+
+  const getUrgencyLabel = (urgency: string) => {
+    switch (urgency) {
+      case "critical": return "Critical";
+      case "high": return "Urgent";
+      case "medium": return "Needed";
+      default: return "Optional";
+    }
+  };
+
+  const getCategoryIcon = (category: string) => {
+    const cat = categories.find(c => c.id === category);
+    return cat?.icon || Package;
+  };
+
+  const getProgress = (need: ChildrenNeed) => {
+    if (need.quantity_needed === 0) return 100;
+    return Math.round((need.quantity_fulfilled / need.quantity_needed) * 100);
   };
 
   return (
@@ -176,16 +121,26 @@ const Needs = () => {
       {/* Needs Grid */}
       <section className="section-padding bg-background">
         <div className="container-custom">
-          {filteredNeeds.length === 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : filteredNeeds.length === 0 ? (
             <div className="text-center py-12">
               <Package className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
               <h3 className="heading-card mb-2">No needs found</h3>
-              <p className="text-muted-foreground">Try adjusting your search or filter.</p>
+              <p className="text-muted-foreground">
+                {needs?.length === 0 
+                  ? "No needs have been added yet. Check back soon!" 
+                  : "Try adjusting your search or filter."}
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredNeeds.map((need) => {
-                const CategoryIcon = categories.find((c) => c.id === need.category)?.icon || Package;
+                const CategoryIcon = getCategoryIcon(need.category);
+                const progress = getProgress(need);
+                
                 return (
                   <div
                     key={need.id}
@@ -196,28 +151,36 @@ const Needs = () => {
                         <CategoryIcon className="w-6 h-6 text-primary" />
                       </div>
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getUrgencyStyles(need.urgency)}`}>
-                        {need.urgency === "high" ? "Urgent" : need.urgency === "medium" ? "Needed" : "Optional"}
+                        {getUrgencyLabel(need.urgency)}
                       </span>
                     </div>
 
                     <h3 className="heading-card mb-2">{need.title}</h3>
-                    <p className="text-muted-foreground text-sm mb-4">{need.description}</p>
+                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                      {need.description || "Help fulfill this need for our children."}
+                    </p>
 
                     <div className="flex items-center justify-between text-sm mb-4">
-                      <span className="text-muted-foreground">Quantity: {need.quantity}</span>
-                      <span className="font-semibold text-primary">₹{need.cost.toLocaleString()}</span>
+                      <span className="text-muted-foreground">
+                        Qty: {need.quantity_fulfilled}/{need.quantity_needed}
+                      </span>
+                      {need.estimated_cost && (
+                        <span className="font-semibold text-primary">
+                          ₹{need.estimated_cost.toLocaleString()}
+                        </span>
+                      )}
                     </div>
 
                     {/* Progress Bar */}
                     <div className="mb-4">
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-muted-foreground">{need.progress}% fulfilled</span>
-                        <span className="text-muted-foreground">{100 - need.progress}% remaining</span>
+                        <span className="text-muted-foreground">{progress}% fulfilled</span>
+                        <span className="text-muted-foreground">{100 - progress}% remaining</span>
                       </div>
                       <div className="h-2 bg-muted rounded-full overflow-hidden">
                         <div
                           className="h-full bg-accent rounded-full transition-all"
-                          style={{ width: `${need.progress}%` }}
+                          style={{ width: `${progress}%` }}
                         />
                       </div>
                     </div>
