@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, Send, MessageSquare, Users, Building } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, MessageSquare, Users, Building, Loader2 } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useCreateContactMessage } from "@/hooks/useContactMessages";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const contactInfo = [
   {
@@ -36,6 +39,14 @@ const inquiryTypes = [
   { id: "vendor", label: "Become Vendor", icon: Building },
 ];
 
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").max(100),
+  email: z.string().email("Please enter a valid email"),
+  phone: z.string().optional(),
+  subject: z.string().min(2, "Subject is required").max(200),
+  message: z.string().min(10, "Message must be at least 10 characters").max(2000),
+});
+
 const Contact = () => {
   const [inquiryType, setInquiryType] = useState("general");
   const [formData, setFormData] = useState({
@@ -45,11 +56,32 @@ const Contact = () => {
     subject: "",
     message: "",
   });
+  const createMessage = useCreateContactMessage();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", { inquiryType, ...formData });
+    
+    const result = contactSchema.safeParse(formData);
+    if (!result.success) {
+      toast.error(result.error.errors[0].message);
+      return;
+    }
+    
+    try {
+      await createMessage.mutateAsync({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        inquiry_type: inquiryType,
+        subject: formData.subject,
+        message: formData.message,
+      });
+      
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch (error) {
+      toast.error("Failed to send message. Please try again.");
+    }
   };
 
   return (
@@ -203,9 +235,24 @@ const Contact = () => {
                     />
                   </div>
 
-                  <Button variant="hero" size="lg" type="submit" className="w-full md:w-auto">
-                    <Send className="w-5 h-5" />
-                    Send Message
+                  <Button 
+                    variant="hero" 
+                    size="lg" 
+                    type="submit" 
+                    className="w-full md:w-auto"
+                    disabled={createMessage.isPending}
+                  >
+                    {createMessage.isPending ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </form>
               </div>

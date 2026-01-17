@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Heart, CreditCard, Building, Wallet, Phone, CheckCircle, Shield, Users, Calendar } from "lucide-react";
+import { Heart, CreditCard, Building, Wallet, Phone, CheckCircle, Shield, Users, Calendar, Loader2 } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useCreateDonation } from "@/hooks/useDonations";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const donationAmounts = [500, 1000, 2500, 5000, 10000, 25000];
 
@@ -21,15 +25,25 @@ const paymentMethods = [
   { id: "wallet", name: "Wallet", icon: Wallet, description: "Digital Wallets" },
 ];
 
+const donationSchema = z.object({
+  name: z.string().min(2, "Name is required").max(100),
+  email: z.string().email("Valid email is required"),
+  phone: z.string().optional(),
+  amount: z.number().min(1, "Amount must be at least ₹1"),
+});
+
 const Donate = () => {
+  const { user, profile } = useAuth();
+  const createDonation = useCreateDonation();
+  
   const [donationType, setDonationType] = useState("one-time");
   const [selectedAmount, setSelectedAmount] = useState<number | null>(1000);
   const [customAmount, setCustomAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
+    name: profile?.full_name || "",
+    email: user?.email || "",
+    phone: profile?.phone || "",
     pan: "",
     message: "",
   });
@@ -45,6 +59,39 @@ const Donate = () => {
   };
 
   const finalAmount = customAmount ? parseInt(customAmount) : selectedAmount;
+
+  const handleDonate = async () => {
+    const result = donationSchema.safeParse({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      amount: finalAmount,
+    });
+    
+    if (!result.success) {
+      toast.error(result.error.errors[0].message);
+      return;
+    }
+    
+    try {
+      await createDonation.mutateAsync({
+        donor_name: formData.name,
+        donor_email: formData.email,
+        donor_phone: formData.phone || undefined,
+        amount: finalAmount!,
+        donation_type: donationType === "monthly" ? "recurring" : "general",
+        payment_method: paymentMethod,
+        is_recurring: donationType === "monthly",
+        message: formData.message || undefined,
+      });
+      
+      toast.success("Thank you for your generous donation! You'll receive a confirmation email shortly.");
+      setFormData({ name: "", email: "", phone: "", pan: "", message: "" });
+      setSelectedAmount(1000);
+    } catch (error) {
+      toast.error("Failed to process donation. Please try again.");
+    }
+  };
 
   return (
     <Layout>
@@ -232,9 +279,24 @@ const Donate = () => {
                 </p>
               </div>
 
-              <Button variant="hero" size="xl" className="w-full">
-                <Heart className="w-5 h-5" />
-                Donate ₹{finalAmount?.toLocaleString() || 0} {donationType === "monthly" ? "Monthly" : "Now"}
+              <Button 
+                variant="hero" 
+                size="xl" 
+                className="w-full"
+                onClick={handleDonate}
+                disabled={createDonation.isPending || !finalAmount}
+              >
+                {createDonation.isPending ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Heart className="w-5 h-5" />
+                    Donate ₹{finalAmount?.toLocaleString() || 0} {donationType === "monthly" ? "Monthly" : "Now"}
+                  </>
+                )}
               </Button>
 
               <p className="text-center text-xs text-muted-foreground mt-4">

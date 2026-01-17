@@ -64,23 +64,21 @@ export function useLikePost() {
       if (!user) throw new Error('Must be logged in');
       
       if (isLiked) {
-        // Unlike
-        await supabase
+        // Unlike - delete the like
+        const { error: deleteError } = await supabase
           .from('post_likes')
           .delete()
           .eq('post_id', postId)
           .eq('user_id', user.id);
         
-        // Decrement likes count
-        await supabase.rpc('decrement_likes', { post_id: postId });
+        if (deleteError) throw deleteError;
       } else {
-        // Like
-        await supabase
+        // Like - insert a new like
+        const { error: insertError } = await supabase
           .from('post_likes')
           .insert({ post_id: postId, user_id: user.id });
         
-        // Increment likes count
-        await supabase.rpc('increment_likes', { post_id: postId });
+        if (insertError) throw insertError;
       }
     },
     onSuccess: () => {
@@ -125,9 +123,6 @@ export function useAddComment() {
         .single();
       
       if (error) throw error;
-      
-      // Increment comments count
-      await supabase.rpc('increment_comments', { post_id: postId });
       
       return data;
     },

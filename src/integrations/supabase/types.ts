@@ -516,6 +516,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      decrement_likes: { Args: { post_id: string }; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -523,6 +524,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_comments: { Args: { post_id: string }; Returns: undefined }
+      increment_likes: { Args: { post_id: string }; Returns: undefined }
       is_admin_or_subadmin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
