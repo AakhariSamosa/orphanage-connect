@@ -260,7 +260,7 @@ const Earn = () => {
                 ))}
               </ul>
               <Button variant="heroOutline" size="lg" asChild>
-                <Link to="/contact">
+                <Link to="/vendor/register">
                   Apply as Vendor
                   <ArrowRight className="w-4 h-4" />
                 </Link>
