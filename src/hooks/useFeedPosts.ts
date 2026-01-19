@@ -55,39 +55,65 @@ export function useFeedPosts() {
   });
 }
 
-export function useLikePost() {
+export function useLikePost(postId: string) {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   
-  return useMutation({
-    mutationFn: async ({ postId, isLiked }: { postId: string; isLiked: boolean }) => {
+  // Check if already liked
+  const { data: likeData } = useQuery({
+    queryKey: ['post_like', postId, user?.id],
+    queryFn: async () => {
+      if (!user) return null;
+      const { data } = await supabase
+        .from('post_likes')
+        .select('id')
+        .eq('post_id', postId)
+        .eq('user_id', user.id)
+        .maybeSingle();
+      return data;
+    },
+    enabled: !!user
+  });
+  
+  const likeMutation = useMutation({
+    mutationFn: async () => {
       if (!user) throw new Error('Must be logged in');
-      
-      if (isLiked) {
-        // Unlike - delete the like
-        const { error: deleteError } = await supabase
-          .from('post_likes')
-          .delete()
-          .eq('post_id', postId)
-          .eq('user_id', user.id);
-        
-        if (deleteError) throw deleteError;
-      } else {
-        // Like - insert a new like
-        const { error: insertError } = await supabase
-          .from('post_likes')
-          .insert({ post_id: postId, user_id: user.id });
-        
-        if (insertError) throw insertError;
-      }
+      const { error } = await supabase
+        .from('post_likes')
+        .insert({ post_id: postId, user_id: user.id });
+      if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['feed_posts'] });
+      queryClient.invalidateQueries({ queryKey: ['post_like', postId] });
     }
   });
+  
+  const unlikeMutation = useMutation({
+    mutationFn: async () => {
+      if (!user) throw new Error('Must be logged in');
+      const { error } = await supabase
+        .from('post_likes')
+        .delete()
+        .eq('post_id', postId)
+        .eq('user_id', user.id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['feed_posts'] });
+      queryClient.invalidateQueries({ queryKey: ['post_like', postId] });
+    }
+  });
+  
+  return {
+    likePost: likeMutation.mutate,
+    unlikePost: unlikeMutation.mutate,
+    isLiked: !!likeData,
+    isLiking: likeMutation.isPending || unlikeMutation.isPending
+  };
 }
 
-export function usePostComments(postId: string) {
+export function usePostComments(postId: string, enabled: boolean = true) {
   return useQuery({
     queryKey: ['post_comments', postId],
     queryFn: async () => {
@@ -100,16 +126,16 @@ export function usePostComments(postId: string) {
       if (error) throw error;
       return data as PostComment[];
     },
-    enabled: !!postId
+    enabled: !!postId && enabled
   });
 }
 
-export function useAddComment() {
+export function useAddComment(postId: string) {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   
   return useMutation({
-    mutationFn: async ({ postId, content }: { postId: string; content: string }) => {
+    mutationFn: async (content: string) => {
       if (!user) throw new Error('Must be logged in');
       
       const { data, error } = await supabase
@@ -123,11 +149,41 @@ export function useAddComment() {
         .single();
       
       if (error) throw error;
-      
       return data;
     },
-    onSuccess: (_, { postId }) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['post_comments', postId] });
+      queryClient.invalidateQueries({ queryKey: ['feed_posts'] });
+    }
+  });
+}
+
+export function useCreatePost() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  
+  return useMutation({
+    mutationFn: async (post: {
+      title: string | null;
+      content: string | null;
+      media_url: string | null;
+      media_type: string | null;
+    }) => {
+      if (!user) throw new Error('Must be logged in');
+      
+      const { data, error } = await supabase
+        .from('feed_posts')
+        .insert({
+          ...post,
+          created_by: user.id
+        })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['feed_posts'] });
     }
   });

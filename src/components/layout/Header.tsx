@@ -19,6 +19,7 @@ const navigation = [
   { name: "Children Needs", href: "/needs" },
   { name: "Donate", href: "/donate" },
   { name: "Earn & Support", href: "/earn" },
+  { name: "Feed", href: "/feed" },
   { name: "Events", href: "/events" },
   { name: "Contact", href: "/contact" },
 ];
