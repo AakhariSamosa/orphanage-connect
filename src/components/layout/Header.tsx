@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Heart, User, LogOut, Settings, Loader2 } from "lucide-react";
+import { Menu, X, Heart, User, LogOut, Settings, Loader2, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,6 +30,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, profile, isLoading, isAdmin, isSubAdmin, signOut } = useAuth();
+  const { isDevMode, toggleDevMode } = useTheme();
 
   const handleSignOut = async () => {
     await signOut();
@@ -113,6 +115,10 @@ const Header = () => {
                           <Settings className="mr-2 h-4 w-4" />
                           Admin Dashboard
                         </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={toggleDevMode} className="cursor-pointer">
+                        <Palette className="mr-2 h-4 w-4" />
+                        {isDevMode ? 'Hide Theme Switcher' : 'Show Theme Switcher'}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                     </>
