@@ -5,8 +5,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
-  :root {
-    /* Warm, compassionate color palette */
+  /* ========================================
+     DEFAULT THEME - Shradhanand Saffron
+     Original warm, compassionate color palette
+     ======================================== */
+  :root,
+  [data-theme="default"] {
+    /* Core Colors */
     --background: 35 30% 98%;
     --foreground: 25 30% 15%;
 
@@ -41,7 +46,7 @@
 
     --radius: 0.75rem;
 
-    /* Custom colors for the platform */
+    /* Custom colors */
     --saffron: 28 85% 55%;
     --saffron-light: 32 80% 65%;
     --saffron-dark: 24 85% 45%;
@@ -64,6 +69,7 @@
     --shadow-card: 0 8px 30px -8px rgba(139, 90, 43, 0.12);
     --shadow-elevated: 0 20px 50px -15px rgba(139, 90, 43, 0.2);
 
+    /* Sidebar */
     --sidebar-background: 35 25% 97%;
     --sidebar-foreground: 25 30% 15%;
     --sidebar-primary: 28 85% 55%;
@@ -74,6 +80,877 @@
     --sidebar-ring: 28 85% 55%;
   }
 
+  /* ========================================
+     STARBUCKS THEME - Iconic Green
+     Famous Starbucks green with clean whites
+     ======================================== */
+  [data-theme="starbucks"] {
+    --background: 160 15% 98%;
+    --foreground: 160 30% 10%;
+
+    --card: 160 20% 97%;
+    --card-foreground: 160 30% 10%;
+
+    --popover: 160 20% 97%;
+    --popover-foreground: 160 30% 10%;
+
+    --primary: 158 100% 23%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 160 30% 92%;
+    --secondary-foreground: 160 30% 15%;
+
+    --muted: 160 15% 90%;
+    --muted-foreground: 160 10% 40%;
+
+    --accent: 160 60% 15%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 160 15% 88%;
+    --input: 160 15% 88%;
+    --ring: 158 100% 23%;
+
+    --saffron: 158 100% 23%;
+    --saffron-light: 160 50% 35%;
+    --saffron-dark: 160 100% 18%;
+    --earth: 160 30% 15%;
+    --earth-light: 160 20% 25%;
+    --cream: 160 20% 95%;
+    --sage: 158 100% 23%;
+    --sage-light: 160 40% 60%;
+    --terracotta: 160 60% 25%;
+    --gold: 45 70% 50%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(158, 100%, 23%) 0%, hsl(160, 60%, 35%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(160, 30%, 15%) 0%, hsl(160, 20%, 25%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(158, 100%, 23%) 0%, hsl(160, 50%, 40%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(0, 117, 74, 0.15);
+    --shadow-card: 0 8px 30px -8px rgba(0, 117, 74, 0.12);
+    --shadow-elevated: 0 20px 50px -15px rgba(0, 117, 74, 0.2);
+
+    --sidebar-background: 160 20% 97%;
+    --sidebar-foreground: 160 30% 10%;
+    --sidebar-primary: 158 100% 23%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 160 30% 92%;
+    --sidebar-accent-foreground: 160 30% 15%;
+    --sidebar-border: 160 15% 88%;
+    --sidebar-ring: 158 100% 23%;
+  }
+
+  /* ========================================
+     COSTA THEME - Crimson & Brown
+     Costa Coffee warm red and rich browns
+     ======================================== */
+  [data-theme="costa"] {
+    --background: 20 20% 98%;
+    --foreground: 20 40% 12%;
+
+    --card: 20 25% 97%;
+    --card-foreground: 20 40% 12%;
+
+    --popover: 20 25% 97%;
+    --popover-foreground: 20 40% 12%;
+
+    --primary: 345 55% 28%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 30 30% 92%;
+    --secondary-foreground: 20 40% 15%;
+
+    --muted: 25 20% 90%;
+    --muted-foreground: 20 15% 40%;
+
+    --accent: 25 59% 39%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 20 15% 88%;
+    --input: 20 15% 88%;
+    --ring: 345 55% 28%;
+
+    --saffron: 345 55% 28%;
+    --saffron-light: 345 45% 40%;
+    --saffron-dark: 345 60% 22%;
+    --earth: 25 40% 22%;
+    --earth-light: 25 30% 32%;
+    --cream: 30 30% 95%;
+    --sage: 25 59% 39%;
+    --sage-light: 30 40% 55%;
+    --terracotta: 15 55% 42%;
+    --gold: 38 70% 50%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(345, 55%, 28%) 0%, hsl(25, 59%, 39%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(25, 40%, 22%) 0%, hsl(25, 30%, 32%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(345, 55%, 28%) 0%, hsl(345, 45%, 40%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(109, 31, 52, 0.15);
+    --shadow-card: 0 8px 30px -8px rgba(109, 31, 52, 0.12);
+    --shadow-elevated: 0 20px 50px -15px rgba(109, 31, 52, 0.2);
+
+    --sidebar-background: 20 25% 97%;
+    --sidebar-foreground: 20 40% 12%;
+    --sidebar-primary: 345 55% 28%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 30% 92%;
+    --sidebar-accent-foreground: 20 40% 15%;
+    --sidebar-border: 20 15% 88%;
+    --sidebar-ring: 345 55% 28%;
+  }
+
+  /* ========================================
+     BLUE BOTTLE THEME - Minimalist Blue
+     Clean, modern, minimalist aesthetic
+     ======================================== */
+  [data-theme="blue-bottle"] {
+    --background: 210 20% 98%;
+    --foreground: 210 30% 12%;
+
+    --card: 210 15% 97%;
+    --card-foreground: 210 30% 12%;
+
+    --popover: 210 15% 97%;
+    --popover-foreground: 210 30% 12%;
+
+    --primary: 207 90% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 25% 93%;
+    --secondary-foreground: 210 30% 15%;
+
+    --muted: 210 15% 91%;
+    --muted-foreground: 210 10% 40%;
+
+    --accent: 207 85% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 15% 88%;
+    --input: 210 15% 88%;
+    --ring: 207 90% 35%;
+
+    --saffron: 207 90% 35%;
+    --saffron-light: 207 70% 50%;
+    --saffron-dark: 207 95% 28%;
+    --earth: 210 25% 18%;
+    --earth-light: 210 20% 28%;
+    --cream: 210 20% 96%;
+    --sage: 207 85% 50%;
+    --sage-light: 207 60% 65%;
+    --terracotta: 207 70% 40%;
+    --gold: 45 60% 50%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(207, 90%, 35%) 0%, hsl(207, 85%, 50%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(210, 25%, 18%) 0%, hsl(210, 20%, 28%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(207, 85%, 50%) 0%, hsl(207, 60%, 65%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(0, 102, 179, 0.12);
+    --shadow-card: 0 8px 30px -8px rgba(0, 102, 179, 0.10);
+    --shadow-elevated: 0 20px 50px -15px rgba(0, 102, 179, 0.18);
+
+    --sidebar-background: 210 15% 97%;
+    --sidebar-foreground: 210 30% 12%;
+    --sidebar-primary: 207 90% 35%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 25% 93%;
+    --sidebar-accent-foreground: 210 30% 15%;
+    --sidebar-border: 210 15% 88%;
+    --sidebar-ring: 207 90% 35%;
+  }
+
+  /* ========================================
+     CARIBOU THEME - Teal & Warm Brown
+     Calming teal with warm brown accents
+     ======================================== */
+  [data-theme="caribou"] {
+    --background: 185 15% 98%;
+    --foreground: 25 30% 15%;
+
+    --card: 185 12% 97%;
+    --card-foreground: 25 30% 15%;
+
+    --popover: 185 12% 97%;
+    --popover-foreground: 25 30% 15%;
+
+    --primary: 189 31% 61%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 40 30% 90%;
+    --secondary-foreground: 25 30% 18%;
+
+    --muted: 185 12% 90%;
+    --muted-foreground: 25 15% 42%;
+
+    --accent: 18 26% 25%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 185 12% 88%;
+    --input: 185 12% 88%;
+    --ring: 189 31% 61%;
+
+    --saffron: 189 31% 61%;
+    --saffron-light: 189 35% 72%;
+    --saffron-dark: 189 35% 50%;
+    --earth: 18 26% 25%;
+    --earth-light: 18 22% 35%;
+    --cream: 40 30% 95%;
+    --sage: 189 31% 61%;
+    --sage-light: 189 28% 75%;
+    --terracotta: 18 40% 38%;
+    --gold: 42 65% 52%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(189, 31%, 61%) 0%, hsl(189, 35%, 72%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(18, 26%, 25%) 0%, hsl(18, 22%, 35%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(189, 31%, 61%) 0%, hsl(40, 40%, 65%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(121, 175, 188, 0.18);
+    --shadow-card: 0 8px 30px -8px rgba(121, 175, 188, 0.15);
+    --shadow-elevated: 0 20px 50px -15px rgba(121, 175, 188, 0.22);
+
+    --sidebar-background: 185 12% 97%;
+    --sidebar-foreground: 25 30% 15%;
+    --sidebar-primary: 189 31% 61%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 40 30% 90%;
+    --sidebar-accent-foreground: 25 30% 18%;
+    --sidebar-border: 185 12% 88%;
+    --sidebar-ring: 189 31% 61%;
+  }
+
+  /* ========================================
+     DUNKIN THEME - Vibrant Orange & Magenta
+     Energetic and bold
+     ======================================== */
+  [data-theme="dunkin"] {
+    --background: 25 30% 98%;
+    --foreground: 25 40% 12%;
+
+    --card: 25 25% 97%;
+    --card-foreground: 25 40% 12%;
+
+    --popover: 25 25% 97%;
+    --popover-foreground: 25 40% 12%;
+
+    --primary: 20 100% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 330 70% 95%;
+    --secondary-foreground: 25 40% 15%;
+
+    --muted: 25 20% 90%;
+    --muted-foreground: 25 15% 40%;
+
+    --accent: 325 86% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 25 15% 88%;
+    --input: 25 15% 88%;
+    --ring: 20 100% 56%;
+
+    --saffron: 20 100% 56%;
+    --saffron-light: 25 90% 65%;
+    --saffron-dark: 18 100% 45%;
+    --earth: 325 60% 25%;
+    --earth-light: 325 45% 35%;
+    --cream: 25 40% 96%;
+    --sage: 325 86% 48%;
+    --sage-light: 330 60% 65%;
+    --terracotta: 15 70% 50%;
+    --gold: 38 85% 55%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(20, 100%, 56%) 0%, hsl(325, 86%, 48%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(325, 60%, 25%) 0%, hsl(325, 45%, 35%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(20, 100%, 56%) 0%, hsl(25, 90%, 65%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(255, 103, 31, 0.18);
+    --shadow-card: 0 8px 30px -8px rgba(255, 103, 31, 0.15);
+    --shadow-elevated: 0 20px 50px -15px rgba(255, 103, 31, 0.22);
+
+    --sidebar-background: 25 25% 97%;
+    --sidebar-foreground: 25 40% 12%;
+    --sidebar-primary: 20 100% 56%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 330 70% 95%;
+    --sidebar-accent-foreground: 25 40% 15%;
+    --sidebar-border: 25 15% 88%;
+    --sidebar-ring: 20 100% 56%;
+  }
+
+  /* ========================================
+     LAVAZZA THEME - Italian Navy Blue
+     Sophisticated Italian branding
+     ======================================== */
+  [data-theme="lavazza"] {
+    --background: 220 20% 98%;
+    --foreground: 220 40% 12%;
+
+    --card: 220 18% 97%;
+    --card-foreground: 220 40% 12%;
+
+    --popover: 220 18% 97%;
+    --popover-foreground: 220 40% 12%;
+
+    --primary: 222 100% 23%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 25% 93%;
+    --secondary-foreground: 220 40% 15%;
+
+    --muted: 220 15% 91%;
+    --muted-foreground: 220 12% 40%;
+
+    --accent: 42 59% 55%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 222 100% 23%;
+
+    --saffron: 222 100% 23%;
+    --saffron-light: 222 70% 35%;
+    --saffron-dark: 222 100% 18%;
+    --earth: 222 50% 15%;
+    --earth-light: 222 40% 25%;
+    --cream: 42 40% 95%;
+    --sage: 42 59% 55%;
+    --sage-light: 42 50% 70%;
+    --terracotta: 42 55% 45%;
+    --gold: 42 70% 55%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(222, 100%, 23%) 0%, hsl(42, 59%, 55%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(222, 50%, 15%) 0%, hsl(222, 40%, 25%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(42, 59%, 55%) 0%, hsl(42, 50%, 70%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(0, 39, 118, 0.12);
+    --shadow-card: 0 8px 30px -8px rgba(0, 39, 118, 0.10);
+    --shadow-elevated: 0 20px 50px -15px rgba(0, 39, 118, 0.18);
+
+    --sidebar-background: 220 18% 97%;
+    --sidebar-foreground: 220 40% 12%;
+    --sidebar-primary: 222 100% 23%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 25% 93%;
+    --sidebar-accent-foreground: 220 40% 15%;
+    --sidebar-border: 220 15% 88%;
+    --sidebar-ring: 222 100% 23%;
+  }
+
+  /* ========================================
+     ESPRESSO THEME - Dark Roast
+     Rich, dark browns for sophisticated feel
+     ======================================== */
+  [data-theme="espresso"] {
+    --background: 20 15% 97%;
+    --foreground: 20 30% 12%;
+
+    --card: 20 12% 96%;
+    --card-foreground: 20 30% 12%;
+
+    --popover: 20 12% 96%;
+    --popover-foreground: 20 30% 12%;
+
+    --primary: 10 16% 20%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 35 30% 90%;
+    --secondary-foreground: 20 30% 15%;
+
+    --muted: 25 15% 88%;
+    --muted-foreground: 20 12% 40%;
+
+    --accent: 24 61% 42%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 20 12% 85%;
+    --input: 20 12% 85%;
+    --ring: 10 16% 20%;
+
+    --saffron: 10 16% 20%;
+    --saffron-light: 10 12% 30%;
+    --saffron-dark: 10 18% 15%;
+    --earth: 10 16% 20%;
+    --earth-light: 10 12% 30%;
+    --cream: 35 30% 94%;
+    --sage: 24 61% 42%;
+    --sage-light: 24 50% 58%;
+    --terracotta: 18 50% 38%;
+    --gold: 40 55% 52%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(10, 16%, 20%) 0%, hsl(24, 61%, 42%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(10, 16%, 20%) 0%, hsl(10, 12%, 30%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(24, 61%, 42%) 0%, hsl(35, 45%, 55%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(59, 42, 42, 0.20);
+    --shadow-card: 0 8px 30px -8px rgba(59, 42, 42, 0.18);
+    --shadow-elevated: 0 20px 50px -15px rgba(59, 42, 42, 0.25);
+
+    --sidebar-background: 20 12% 96%;
+    --sidebar-foreground: 20 30% 12%;
+    --sidebar-primary: 10 16% 20%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 35 30% 90%;
+    --sidebar-accent-foreground: 20 30% 15%;
+    --sidebar-border: 20 12% 85%;
+    --sidebar-ring: 10 16% 20%;
+  }
+
+  /* ========================================
+     MOCHA THEME - Chocolate Tones
+     Warm chocolate mocha, inviting
+     ======================================== */
+  [data-theme="mocha"] {
+    --background: 16 15% 97%;
+    --foreground: 16 30% 12%;
+
+    --card: 16 12% 96%;
+    --card-foreground: 16 30% 12%;
+
+    --popover: 16 12% 96%;
+    --popover-foreground: 16 30% 12%;
+
+    --primary: 16 25% 26%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 16 20% 93%;
+    --secondary-foreground: 16 30% 15%;
+
+    --muted: 16 12% 90%;
+    --muted-foreground: 16 10% 42%;
+
+    --accent: 16 20% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 16 10% 86%;
+    --input: 16 10% 86%;
+    --ring: 16 25% 26%;
+
+    --saffron: 16 25% 26%;
+    --saffron-light: 16 22% 38%;
+    --saffron-dark: 16 28% 20%;
+    --earth: 16 25% 26%;
+    --earth-light: 16 22% 38%;
+    --cream: 16 18% 95%;
+    --sage: 16 20% 48%;
+    --sage-light: 16 18% 62%;
+    --terracotta: 16 35% 40%;
+    --gold: 38 50% 52%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(16, 25%, 26%) 0%, hsl(16, 20%, 48%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(16, 25%, 26%) 0%, hsl(16, 22%, 38%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(16, 20%, 48%) 0%, hsl(16, 18%, 62%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(93, 64, 55, 0.18);
+    --shadow-card: 0 8px 30px -8px rgba(93, 64, 55, 0.15);
+    --shadow-elevated: 0 20px 50px -15px rgba(93, 64, 55, 0.22);
+
+    --sidebar-background: 16 12% 96%;
+    --sidebar-foreground: 16 30% 12%;
+    --sidebar-primary: 16 25% 26%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 16 20% 93%;
+    --sidebar-accent-foreground: 16 30% 15%;
+    --sidebar-border: 16 10% 86%;
+    --sidebar-ring: 16 25% 26%;
+  }
+
+  /* ========================================
+     CARAMEL THEME - Golden Warmth
+     Sweet caramel with creamy undertones
+     ======================================== */
+  [data-theme="caramel"] {
+    --background: 38 35% 98%;
+    --foreground: 25 35% 15%;
+
+    --card: 38 30% 97%;
+    --card-foreground: 25 35% 15%;
+
+    --popover: 38 30% 97%;
+    --popover-foreground: 25 35% 15%;
+
+    --primary: 32 38% 59%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 45 55% 92%;
+    --secondary-foreground: 25 35% 18%;
+
+    --muted: 38 25% 90%;
+    --muted-foreground: 25 18% 42%;
+
+    --accent: 16 30% 36%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 38 22% 86%;
+    --input: 38 22% 86%;
+    --ring: 32 38% 59%;
+
+    --saffron: 32 38% 59%;
+    --saffron-light: 32 42% 70%;
+    --saffron-dark: 32 42% 48%;
+    --earth: 16 30% 36%;
+    --earth-light: 16 25% 45%;
+    --cream: 45 55% 95%;
+    --sage: 32 38% 59%;
+    --sage-light: 38 35% 72%;
+    --terracotta: 16 45% 40%;
+    --gold: 45 65% 58%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(32, 38%, 59%) 0%, hsl(45, 55%, 70%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(16, 30%, 36%) 0%, hsl(16, 25%, 45%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(45, 55%, 70%) 0%, hsl(45, 50%, 80%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(198, 156, 109, 0.18);
+    --shadow-card: 0 8px 30px -8px rgba(198, 156, 109, 0.15);
+    --shadow-elevated: 0 20px 50px -15px rgba(198, 156, 109, 0.22);
+
+    --sidebar-background: 38 30% 97%;
+    --sidebar-foreground: 25 35% 15%;
+    --sidebar-primary: 32 38% 59%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 45 55% 92%;
+    --sidebar-accent-foreground: 25 35% 18%;
+    --sidebar-border: 38 22% 86%;
+    --sidebar-ring: 32 38% 59%;
+  }
+
+  /* ========================================
+     LATTE THEME - Creamy Neutrals
+     Soft, gentle latte warmth
+     ======================================== */
+  [data-theme="latte"] {
+    --background: 35 25% 98%;
+    --foreground: 25 28% 15%;
+
+    --card: 35 22% 97%;
+    --card-foreground: 25 28% 15%;
+
+    --popover: 35 22% 97%;
+    --popover-foreground: 25 28% 15%;
+
+    --primary: 27 24% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 35 30% 94%;
+    --secondary-foreground: 25 28% 18%;
+
+    --muted: 35 18% 91%;
+    --muted-foreground: 25 15% 42%;
+
+    --accent: 22 25% 36%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 35 18% 87%;
+    --input: 35 18% 87%;
+    --ring: 27 24% 53%;
+
+    --saffron: 27 24% 53%;
+    --saffron-light: 27 28% 65%;
+    --saffron-dark: 27 28% 42%;
+    --earth: 22 25% 36%;
+    --earth-light: 22 22% 46%;
+    --cream: 35 35% 96%;
+    --sage: 27 24% 53%;
+    --sage-light: 30 22% 68%;
+    --terracotta: 18 35% 40%;
+    --gold: 40 45% 55%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(27, 24%, 53%) 0%, hsl(35, 30%, 68%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(22, 25%, 36%) 0%, hsl(22, 22%, 46%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(35, 30%, 68%) 0%, hsl(35, 28%, 78%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(166, 138, 107, 0.16);
+    --shadow-card: 0 8px 30px -8px rgba(166, 138, 107, 0.14);
+    --shadow-elevated: 0 20px 50px -15px rgba(166, 138, 107, 0.20);
+
+    --sidebar-background: 35 22% 97%;
+    --sidebar-foreground: 25 28% 15%;
+    --sidebar-primary: 27 24% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 35 30% 94%;
+    --sidebar-accent-foreground: 25 28% 18%;
+    --sidebar-border: 35 18% 87%;
+    --sidebar-ring: 27 24% 53%;
+  }
+
+  /* ========================================
+     CHAI THEME - Spicy Warmth
+     Warm chai with orange spice accents
+     ======================================== */
+  [data-theme="chai"] {
+    --background: 28 30% 98%;
+    --foreground: 22 35% 14%;
+
+    --card: 28 25% 97%;
+    --card-foreground: 22 35% 14%;
+
+    --popover: 28 25% 97%;
+    --popover-foreground: 22 35% 14%;
+
+    --primary: 22 38% 47%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 38 45% 92%;
+    --secondary-foreground: 22 35% 16%;
+
+    --muted: 28 20% 90%;
+    --muted-foreground: 22 18% 42%;
+
+    --accent: 30 38% 70%;
+    --accent-foreground: 0 0% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 28 18% 86%;
+    --input: 28 18% 86%;
+    --ring: 22 38% 47%;
+
+    --saffron: 22 38% 47%;
+    --saffron-light: 25 42% 58%;
+    --saffron-dark: 22 42% 38%;
+    --earth: 22 30% 28%;
+    --earth-light: 22 25% 38%;
+    --cream: 38 50% 95%;
+    --sage: 30 38% 70%;
+    --sage-light: 35 35% 78%;
+    --terracotta: 18 50% 42%;
+    --gold: 42 60% 58%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(22, 38%, 47%) 0%, hsl(38, 45%, 65%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(22, 30%, 28%) 0%, hsl(22, 25%, 38%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(38, 45%, 65%) 0%, hsl(42, 50%, 75%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(167, 109, 77, 0.18);
+    --shadow-card: 0 8px 30px -8px rgba(167, 109, 77, 0.15);
+    --shadow-elevated: 0 20px 50px -15px rgba(167, 109, 77, 0.22);
+
+    --sidebar-background: 28 25% 97%;
+    --sidebar-foreground: 22 35% 14%;
+    --sidebar-primary: 22 38% 47%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 38 45% 92%;
+    --sidebar-accent-foreground: 22 35% 16%;
+    --sidebar-border: 28 18% 86%;
+    --sidebar-ring: 22 38% 47%;
+  }
+
+  /* ========================================
+     MATCHA THEME - Green Tea Zen
+     Calming matcha green palette
+     ======================================== */
+  [data-theme="matcha"] {
+    --background: 85 25% 98%;
+    --foreground: 85 30% 12%;
+
+    --card: 85 20% 97%;
+    --card-foreground: 85 30% 12%;
+
+    --popover: 85 20% 97%;
+    --popover-foreground: 85 30% 12%;
+
+    --primary: 88 50% 46%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 85 35% 93%;
+    --secondary-foreground: 85 30% 15%;
+
+    --muted: 85 18% 91%;
+    --muted-foreground: 85 12% 42%;
+
+    --accent: 85 56% 34%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 85 15% 88%;
+    --input: 85 15% 88%;
+    --ring: 88 50% 46%;
+
+    --saffron: 88 50% 46%;
+    --saffron-light: 88 45% 58%;
+    --saffron-dark: 88 55% 36%;
+    --earth: 85 35% 22%;
+    --earth-light: 85 28% 32%;
+    --cream: 85 30% 96%;
+    --sage: 88 50% 46%;
+    --sage-light: 88 42% 65%;
+    --terracotta: 88 45% 38%;
+    --gold: 55 50% 52%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(88, 50%, 46%) 0%, hsl(85, 42%, 58%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(85, 35%, 22%) 0%, hsl(85, 28%, 32%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(88, 50%, 46%) 0%, hsl(88, 42%, 65%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(139, 195, 74, 0.16);
+    --shadow-card: 0 8px 30px -8px rgba(139, 195, 74, 0.14);
+    --shadow-elevated: 0 20px 50px -15px rgba(139, 195, 74, 0.20);
+
+    --sidebar-background: 85 20% 97%;
+    --sidebar-foreground: 85 30% 12%;
+    --sidebar-primary: 88 50% 46%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 85 35% 93%;
+    --sidebar-accent-foreground: 85 30% 15%;
+    --sidebar-border: 85 15% 88%;
+    --sidebar-ring: 88 50% 46%;
+  }
+
+  /* ========================================
+     VANILLA THEME - Soft Cream
+     Elegant vanilla cream palette
+     ======================================== */
+  [data-theme="vanilla"] {
+    --background: 38 40% 98%;
+    --foreground: 28 30% 14%;
+
+    --card: 38 35% 97%;
+    --card-foreground: 28 30% 14%;
+
+    --popover: 38 35% 97%;
+    --popover-foreground: 28 30% 14%;
+
+    --primary: 28 38% 58%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 42 50% 94%;
+    --secondary-foreground: 28 30% 16%;
+
+    --muted: 38 25% 91%;
+    --muted-foreground: 28 15% 42%;
+
+    --accent: 28 26% 44%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 38 22% 87%;
+    --input: 38 22% 87%;
+    --ring: 28 38% 58%;
+
+    --saffron: 28 38% 58%;
+    --saffron-light: 32 42% 70%;
+    --saffron-dark: 28 42% 48%;
+    --earth: 28 26% 44%;
+    --earth-light: 28 22% 54%;
+    --cream: 42 55% 97%;
+    --sage: 28 38% 58%;
+    --sage-light: 32 35% 72%;
+    --terracotta: 22 40% 45%;
+    --gold: 42 55% 60%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(28, 38%, 58%) 0%, hsl(42, 50%, 72%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(28, 26%, 44%) 0%, hsl(28, 22%, 54%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(42, 50%, 72%) 0%, hsl(42, 48%, 82%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(212, 165, 116, 0.16);
+    --shadow-card: 0 8px 30px -8px rgba(212, 165, 116, 0.14);
+    --shadow-elevated: 0 20px 50px -15px rgba(212, 165, 116, 0.20);
+
+    --sidebar-background: 38 35% 97%;
+    --sidebar-foreground: 28 30% 14%;
+    --sidebar-primary: 28 38% 58%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 42 50% 94%;
+    --sidebar-accent-foreground: 28 30% 16%;
+    --sidebar-border: 38 22% 87%;
+    --sidebar-ring: 28 38% 58%;
+  }
+
+  /* ========================================
+     HAZELNUT THEME - Earthy Browns
+     Natural hazelnut wood tones
+     ======================================== */
+  [data-theme="hazelnut"] {
+    --background: 30 22% 97%;
+    --foreground: 22 28% 14%;
+
+    --card: 30 18% 96%;
+    --card-foreground: 22 28% 14%;
+
+    --popover: 30 18% 96%;
+    --popover-foreground: 22 28% 14%;
+
+    --primary: 22 25% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 35 28% 91%;
+    --secondary-foreground: 22 28% 16%;
+
+    --muted: 30 16% 89%;
+    --muted-foreground: 22 14% 42%;
+
+    --accent: 18 18% 26%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 14% 85%;
+    --input: 30 14% 85%;
+    --ring: 22 25% 36%;
+
+    --saffron: 22 25% 36%;
+    --saffron-light: 22 22% 48%;
+    --saffron-dark: 22 28% 28%;
+    --earth: 18 18% 26%;
+    --earth-light: 18 15% 36%;
+    --cream: 35 30% 95%;
+    --sage: 22 25% 36%;
+    --sage-light: 25 22% 55%;
+    --terracotta: 18 35% 38%;
+    --gold: 38 45% 52%;
+
+    --gradient-warm: linear-gradient(135deg, hsl(22, 25%, 36%) 0%, hsl(30, 28%, 52%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(18, 18%, 26%) 0%, hsl(18, 15%, 36%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(30, 28%, 52%) 0%, hsl(35, 25%, 65%) 100%);
+
+    --shadow-soft: 0 4px 20px -4px rgba(123, 91, 58, 0.18);
+    --shadow-card: 0 8px 30px -8px rgba(123, 91, 58, 0.15);
+    --shadow-elevated: 0 20px 50px -15px rgba(123, 91, 58, 0.22);
+
+    --sidebar-background: 30 18% 96%;
+    --sidebar-foreground: 22 28% 14%;
+    --sidebar-primary: 22 25% 36%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 35 28% 91%;
+    --sidebar-accent-foreground: 22 28% 16%;
+    --sidebar-border: 30 14% 85%;
+    --sidebar-ring: 22 25% 36%;
+  }
+
+  /* ========================================
+     DARK MODE (applies to all themes)
+     ======================================== */
   .dark {
     --background: 25 25% 10%;
     --foreground: 35 20% 95%;
@@ -84,33 +961,23 @@
     --popover: 25 20% 14%;
     --popover-foreground: 35 20% 95%;
 
-    --primary: 28 85% 55%;
-    --primary-foreground: 0 0% 100%;
-
     --secondary: 25 15% 20%;
     --secondary-foreground: 35 20% 90%;
 
     --muted: 25 15% 18%;
     --muted-foreground: 35 15% 60%;
 
-    --accent: 145 40% 45%;
-    --accent-foreground: 0 0% 100%;
-
     --destructive: 0 62% 40%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 25 15% 20%;
     --input: 25 15% 20%;
-    --ring: 28 85% 55%;
 
     --sidebar-background: 25 20% 12%;
     --sidebar-foreground: 35 20% 95%;
-    --sidebar-primary: 28 85% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 25 15% 18%;
     --sidebar-accent-foreground: 35 20% 90%;
     --sidebar-border: 25 15% 20%;
-    --sidebar-ring: 28 85% 55%;
   }
 }
 
