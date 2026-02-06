@@ -48,8 +48,8 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary flex items-center justify-center shadow-soft group-hover:shadow-card transition-shadow">
-              <Heart className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground" />
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden shadow-soft group-hover:shadow-card transition-shadow">
+              <img src="/logo.png" alt="Shri Shradhanand Logo" className="w-full h-full object-contain" />
             </div>
             <div className="hidden sm:block">
               <h1 className="font-display text-lg md:text-xl font-semibold text-foreground leading-tight">

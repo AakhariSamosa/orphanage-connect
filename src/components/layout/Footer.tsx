@@ -10,8 +10,8 @@ const Footer = () => {
           {/* About Section */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
-                <Heart className="w-6 h-6 text-primary-foreground" />
+              <div className="w-12 h-12 rounded-full overflow-hidden">
+                <img src="/logo.png" alt="Shri Shradhanand Logo" className="w-full h-full object-contain" />
               </div>
               <div>
                 <h3 className="font-display text-xl font-semibold">Shri Shradhanand</h3>
