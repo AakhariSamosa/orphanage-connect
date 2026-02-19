@@ -36,6 +36,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
+import { useAshram } from "@/contexts/AshramContext";
 
 const donationAmounts = [500, 1000, 2500, 5000, 10000, 25000];
 
@@ -75,7 +76,8 @@ const Donate = () => {
   const createDonation = useCreateDonation();
   const createVisit = useCreateDonorVisit();
   const createItemDonation = useCreateItemDonation();
-  const { data: needs } = useNeeds();
+  const { ashramId } = useAshram();
+  const { data: needs } = useNeeds(undefined, ashramId);
 
   const [flowStep, setFlowStep] = useState<FlowStep>("start");
   const [visitDate, setVisitDate] = useState<Date | undefined>();

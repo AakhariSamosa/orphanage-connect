@@ -8,6 +8,7 @@ export interface CreateContactMessageInput {
   inquiry_type: string;
   subject?: string;
   message: string;
+  ashram_id?: string;
 }
 
 export function useCreateContactMessage() {

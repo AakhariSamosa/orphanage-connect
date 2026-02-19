@@ -19,6 +19,7 @@ export interface Vendor {
   charity_percentage: number;
   is_verified: boolean;
   is_active: boolean;
+  ashram_id: string | null;
   created_at: string;
 }
 
@@ -35,9 +36,9 @@ export interface Product {
   vendor?: Vendor;
 }
 
-export function useVendors(category?: VendorCategory) {
+export function useVendors(category?: VendorCategory, ashramId?: string | null) {
   return useQuery({
-    queryKey: ['vendors', category],
+    queryKey: ['vendors', category, ashramId],
     queryFn: async () => {
       let query = supabase
         .from('vendors')
@@ -48,6 +49,9 @@ export function useVendors(category?: VendorCategory) {
       
       if (category) {
         query = query.eq('category', category);
+      }
+      if (ashramId) {
+        query = query.eq('ashram_id', ashramId);
       }
       
       const { data, error } = await query;
@@ -106,6 +110,7 @@ export function useCreateVendor() {
   const { user } = useAuth();
   
   return useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: async (vendor: Omit<Vendor, 'id' | 'user_id' | 'is_verified' | 'is_active' | 'created_at'>) => {
       if (!user) throw new Error('Must be logged in');
       

@@ -30,7 +30,7 @@ export function useCreateItemDonation() {
 
   return useMutation({
     mutationFn: async (input: CreateItemDonationInput) => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('item_donations')
         .insert({
           ...input,

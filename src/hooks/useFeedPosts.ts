@@ -10,6 +10,7 @@ export interface FeedPost {
   media_type: string | null;
   likes_count: number;
   comments_count: number;
+  ashram_id: string | null;
   created_at: string;
   hasLiked?: boolean;
 }
@@ -22,20 +23,25 @@ export interface PostComment {
   created_at: string;
 }
 
-export function useFeedPosts() {
+export function useFeedPosts(ashramId?: string | null) {
   const { user } = useAuth();
   
   return useQuery({
-    queryKey: ['feed_posts', user?.id],
+    queryKey: ['feed_posts', user?.id, ashramId],
     queryFn: async () => {
-      const { data: posts, error } = await supabase
+      let query = supabase
         .from('feed_posts')
         .select('*')
         .order('created_at', { ascending: false });
       
+      if (ashramId) {
+        query = query.eq('ashram_id', ashramId);
+      }
+      
+      const { data: posts, error } = await query;
+      
       if (error) throw error;
       
-      // Check if user has liked each post
       if (user && posts) {
         const { data: likes } = await supabase
           .from('post_likes')
@@ -59,7 +65,6 @@ export function useLikePost(postId: string) {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   
-  // Check if already liked
   const { data: likeData } = useQuery({
     queryKey: ['post_like', postId, user?.id],
     queryFn: async () => {
@@ -168,6 +173,7 @@ export function useCreatePost() {
       content: string | null;
       media_url: string | null;
       media_type: string | null;
+      ashram_id?: string | null;
     }) => {
       if (!user) throw new Error('Must be logged in');
       

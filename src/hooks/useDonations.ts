@@ -17,6 +17,7 @@ export interface Donation {
   is_anonymous: boolean;
   is_recurring: boolean;
   message: string | null;
+  ashram_id: string | null;
   created_at: string;
 }
 
@@ -31,6 +32,7 @@ export interface CreateDonationInput {
   is_anonymous?: boolean;
   is_recurring?: boolean;
   message?: string;
+  ashram_id?: string;
 }
 
 export function useMyDonations() {

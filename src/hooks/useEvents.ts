@@ -9,12 +9,13 @@ export interface Event {
   location: string | null;
   image_url: string | null;
   is_upcoming: boolean;
+  ashram_id: string | null;
   created_at: string;
 }
 
-export function useEvents(upcoming?: boolean) {
+export function useEvents(upcoming?: boolean, ashramId?: string | null) {
   return useQuery({
-    queryKey: ['events', upcoming],
+    queryKey: ['events', upcoming, ashramId],
     queryFn: async () => {
       let query = supabase
         .from('events')
@@ -23,6 +24,9 @@ export function useEvents(upcoming?: boolean) {
       
       if (upcoming !== undefined) {
         query = query.eq('is_upcoming', upcoming);
+      }
+      if (ashramId) {
+        query = query.eq('ashram_id', ashramId);
       }
       
       const { data, error } = await query;
