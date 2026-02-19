@@ -14,8 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
+      ashram_admins: {
+        Row: {
+          ashram_id: string
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          ashram_id: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          ashram_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ashram_admins_ashram_id_fkey"
+            columns: ["ashram_id"]
+            isOneToOne: false
+            referencedRelation: "ashrams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ashrams: {
+        Row: {
+          accent_color: string | null
+          address: string | null
+          city: string | null
+          cover_image_url: string | null
+          created_at: string
+          description: string | null
+          email: string | null
+          id: string
+          is_active: boolean
+          logo_url: string | null
+          name: string
+          phone: string | null
+          primary_color: string | null
+          secondary_color: string | null
+          slug: string
+          state: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          accent_color?: string | null
+          address?: string | null
+          city?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          id?: string
+          is_active?: boolean
+          logo_url?: string | null
+          name: string
+          phone?: string | null
+          primary_color?: string | null
+          secondary_color?: string | null
+          slug: string
+          state?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          accent_color?: string | null
+          address?: string | null
+          city?: string | null
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          email?: string | null
+          id?: string
+          is_active?: boolean
+          logo_url?: string | null
+          name?: string
+          phone?: string | null
+          primary_color?: string | null
+          secondary_color?: string | null
+          slug?: string
+          state?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       children_needs: {
         Row: {
+          ashram_id: string | null
           category: Database["public"]["Enums"]["need_category"]
           created_at: string
           created_by: string | null
@@ -31,6 +127,7 @@ export type Database = {
           urgency: Database["public"]["Enums"]["need_urgency"]
         }
         Insert: {
+          ashram_id?: string | null
           category: Database["public"]["Enums"]["need_category"]
           created_at?: string
           created_by?: string | null
@@ -46,6 +143,7 @@ export type Database = {
           urgency?: Database["public"]["Enums"]["need_urgency"]
         }
         Update: {
+          ashram_id?: string | null
           category?: Database["public"]["Enums"]["need_category"]
           created_at?: string
           created_by?: string | null
@@ -60,10 +158,19 @@ export type Database = {
           updated_at?: string
           urgency?: Database["public"]["Enums"]["need_urgency"]
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "children_needs_ashram_id_fkey"
+            columns: ["ashram_id"]
+            isOneToOne: false
+            referencedRelation: "ashrams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       contact_messages: {
         Row: {
+          ashram_id: string | null
           created_at: string
           email: string
           id: string
@@ -75,6 +182,7 @@ export type Database = {
           subject: string | null
         }
         Insert: {
+          ashram_id?: string | null
           created_at?: string
           email: string
           id?: string
@@ -86,6 +194,7 @@ export type Database = {
           subject?: string | null
         }
         Update: {
+          ashram_id?: string | null
           created_at?: string
           email?: string
           id?: string
@@ -96,11 +205,20 @@ export type Database = {
           phone?: string | null
           subject?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "contact_messages_ashram_id_fkey"
+            columns: ["ashram_id"]
+            isOneToOne: false
+            referencedRelation: "ashrams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       donations: {
         Row: {
           amount: number
+          ashram_id: string | null
           created_at: string
           donation_type: string
           donor_email: string | null
@@ -118,6 +236,7 @@ export type Database = {
         }
         Insert: {
           amount: number
+          ashram_id?: string | null
           created_at?: string
           donation_type?: string
           donor_email?: string | null
@@ -135,6 +254,7 @@ export type Database = {
         }
         Update: {
           amount?: number
+          ashram_id?: string | null
           created_at?: string
           donation_type?: string
           donor_email?: string | null
@@ -152,6 +272,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "donations_ashram_id_fkey"
+            columns: ["ashram_id"]
+            isOneToOne: false
+            referencedRelation: "ashrams"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "donations_need_id_fkey"
             columns: ["need_id"]
             isOneToOne: false
@@ -162,6 +289,7 @@ export type Database = {
       }
       events: {
         Row: {
+          ashram_id: string | null
           created_at: string
           created_by: string | null
           description: string | null
@@ -174,6 +302,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          ashram_id?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null
@@ -186,6 +315,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          ashram_id?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null
@@ -197,10 +327,19 @@ export type Database = {
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "events_ashram_id_fkey"
+            columns: ["ashram_id"]
+            isOneToOne: false
+            referencedRelation: "ashrams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       feed_posts: {
         Row: {
+          ashram_id: string | null
           comments_count: number
           content: string | null
           created_at: string
@@ -212,6 +351,7 @@ export type Database = {
           title: string | null
         }
         Insert: {
+          ashram_id?: string | null
           comments_count?: number
           content?: string | null
           created_at?: string
@@ -223,6 +363,7 @@ export type Database = {
           title?: string | null
         }
         Update: {
+          ashram_id?: string | null
           comments_count?: number
           content?: string | null
           created_at?: string
@@ -233,7 +374,15 @@ export type Database = {
           media_url?: string | null
           title?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "feed_posts_ashram_id_fkey"
+            columns: ["ashram_id"]
+            isOneToOne: false
+            referencedRelation: "ashrams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       orders: {
         Row: {
@@ -460,6 +609,7 @@ export type Database = {
       vendors: {
         Row: {
           address: string | null
+          ashram_id: string | null
           business_name: string
           category: Database["public"]["Enums"]["vendor_category"]
           charity_percentage: number
@@ -477,6 +627,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          ashram_id?: string | null
           business_name: string
           category: Database["public"]["Enums"]["vendor_category"]
           charity_percentage?: number
@@ -494,6 +645,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          ashram_id?: string | null
           business_name?: string
           category?: Database["public"]["Enums"]["vendor_category"]
           charity_percentage?: number
@@ -509,7 +661,15 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "vendors_ashram_id_fkey"
+            columns: ["ashram_id"]
+            isOneToOne: false
+            referencedRelation: "ashrams"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -527,6 +687,10 @@ export type Database = {
       increment_comments: { Args: { post_id: string }; Returns: undefined }
       increment_likes: { Args: { post_id: string }; Returns: undefined }
       is_admin_or_subadmin: { Args: { _user_id: string }; Returns: boolean }
+      is_ashram_admin: {
+        Args: { _ashram_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "sub_admin" | "user"

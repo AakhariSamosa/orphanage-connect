@@ -61,6 +61,7 @@ export default function VendorRegister() {
         charity_percentage: formData.charity_percentage,
         logo_url: formData.logo_url || null,
         cover_image_url: formData.cover_image_url || null,
+        ashram_id: null,
       });
       toast.success('Vendor application submitted! We will review and verify your account.');
       navigate('/earn');

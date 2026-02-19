@@ -16,12 +16,13 @@ export interface ChildrenNeed {
   estimated_cost: number | null;
   image_url: string | null;
   is_active: boolean;
+  ashram_id: string | null;
   created_at: string;
 }
 
-export function useNeeds(category?: NeedCategory) {
+export function useNeeds(category?: NeedCategory, ashramId?: string | null) {
   return useQuery({
-    queryKey: ['needs', category],
+    queryKey: ['needs', category, ashramId],
     queryFn: async () => {
       let query = supabase
         .from('children_needs')
@@ -32,6 +33,9 @@ export function useNeeds(category?: NeedCategory) {
       
       if (category) {
         query = query.eq('category', category);
+      }
+      if (ashramId) {
+        query = query.eq('ashram_id', ashramId);
       }
       
       const { data, error } = await query;

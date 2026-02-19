@@ -1,10 +1,37 @@
 import { Link } from "react-router-dom";
-import { Heart, Users, Gift, Briefcase, ArrowRight, Star, HandHeart, GraduationCap, Utensils, Shirt } from "lucide-react";
+import { Heart, Users, Gift, Briefcase, ArrowRight, Star, HandHeart, GraduationCap, Utensils, Shirt, Loader2, Building2 } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
+import { useAshram } from "@/contexts/AshramContext";
 import heroImage from "@/assets/hero-children.jpg";
 
 const Index = () => {
+  const { ashram, basePath, isLoading } = useAshram();
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!ashram) {
+    return (
+      <Layout>
+        <div className="min-h-[60vh] flex items-center justify-center text-center">
+          <div>
+            <Building2 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+            <h2 className="heading-section mb-4">Ashram Not Found</h2>
+            <Button asChild><Link to="/">Browse All Ashrams</Link></Button>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
   const impactStats = [
     { number: "150+", label: "Children Cared For" },
     { number: "72", label: "Years of Service" },
@@ -24,21 +51,21 @@ const Index = () => {
       icon: Gift,
       title: "Direct Donation",
       description: "Contribute funds or essentials directly to children in need.",
-      link: "/donate",
+      link: `${basePath}/donate`,
       color: "bg-primary/10 text-primary",
     },
     {
       icon: HandHeart,
       title: "Fulfill a Need",
       description: "Browse specific needs and directly sponsor what children require.",
-      link: "/needs",
+      link: `${basePath}/needs`,
       color: "bg-accent/10 text-accent",
     },
     {
       icon: Briefcase,
       title: "Earn & Support",
       description: "Shop from local vendors. A percentage supports the orphanage.",
-      link: "/earn",
+      link: `${basePath}/earn`,
       color: "bg-gold/10 text-gold",
     },
   ];
@@ -49,8 +76,8 @@ const Index = () => {
       <section className="relative min-h-[90vh] flex items-center">
         <div className="absolute inset-0">
           <img
-            src={heroImage}
-            alt="Children at Shri Shradhanand Anathalay"
+            src={ashram.cover_image_url || heroImage}
+            alt={ashram.name}
             className="w-full h-full object-cover"
           />
           <div className="image-overlay" />
@@ -59,24 +86,23 @@ const Index = () => {
         <div className="container-custom relative z-10">
           <div className="max-w-3xl animate-fade-up">
             <span className="inline-block px-4 py-2 rounded-full bg-primary/20 backdrop-blur-sm text-primary-foreground text-sm font-medium mb-6">
-              Since 1952 • Nagpur, India
+              {[ashram.city, ashram.state].filter(Boolean).join(', ') || 'India'}
             </span>
             <h1 className="heading-display text-primary-foreground mb-6">
-              Every Child Deserves a{" "}
-              <span className="text-primary">Loving Home</span>
+              {ashram.name}
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
-              Join us in nurturing orphaned children with love, education, and hope for a brighter future.
+              {ashram.description || 'Join us in nurturing children with love, education, and hope for a brighter future.'}
             </p>
             <div className="flex flex-wrap gap-4">
               <Button variant="hero" size="xl" asChild>
-                <Link to="/donate">
+                <Link to={`${basePath}/donate`}>
                   <Heart className="w-5 h-5" />
                   Donate Now
                 </Link>
               </Button>
               <Button variant="heroOutline" size="xl" asChild>
-                <Link to="/needs">
+                <Link to={`${basePath}/needs`}>
                   See Children's Needs
                   <ArrowRight className="w-5 h-5" />
                 </Link>
@@ -85,7 +111,6 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
           <div className="w-8 h-12 rounded-full border-2 border-primary-foreground/30 flex items-start justify-center p-2">
             <div className="w-1.5 h-3 rounded-full bg-primary-foreground/50 animate-pulse" />
@@ -116,16 +141,13 @@ const Index = () => {
             <span className="text-primary font-medium mb-2 block">Current Priorities</span>
             <h2 className="heading-section mb-4">Children's Immediate Needs</h2>
             <p className="text-body">
-              Help us provide essential items our children need right now. Every contribution makes a real difference.
+              Help us provide essential items our children need right now.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {needs.map((need, index) => (
-              <div
-                key={index}
-                className="bg-card rounded-2xl p-6 shadow-card card-hover relative overflow-hidden"
-              >
+              <div key={index} className="bg-card rounded-2xl p-6 shadow-card card-hover relative overflow-hidden">
                 {need.urgent && (
                   <span className="absolute top-4 right-4 px-2 py-1 bg-destructive/10 text-destructive text-xs font-medium rounded-full">
                     Urgent
@@ -142,7 +164,7 @@ const Index = () => {
 
           <div className="text-center mt-10">
             <Button variant="outline" size="lg" asChild>
-              <Link to="/needs">
+              <Link to={`${basePath}/needs`}>
                 View All Needs
                 <ArrowRight className="w-4 h-4" />
               </Link>
@@ -164,11 +186,7 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {waysToHelp.map((way, index) => (
-              <Link
-                key={index}
-                to={way.link}
-                className="bg-card rounded-2xl p-8 shadow-card card-hover group"
-              >
+              <Link key={index} to={way.link} className="bg-card rounded-2xl p-8 shadow-card card-hover group">
                 <div className={`w-16 h-16 rounded-2xl ${way.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                   <way.icon className="w-8 h-8" />
                 </div>
@@ -193,21 +211,9 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              {
-                name: "Rajesh Kumar",
-                role: "Regular Donor",
-                quote: "Seeing the smiles on these children's faces fills my heart. The transparency here is remarkable.",
-              },
-              {
-                name: "Priya Sharma",
-                role: "Volunteer",
-                quote: "The Earn & Support initiative is brilliant. I can help while supporting local businesses.",
-              },
-              {
-                name: "Dr. Anil Deshmukh",
-                role: "Trustee",
-                quote: "For 72 years, this institution has been a beacon of hope for countless children in need.",
-              },
+              { name: "Rajesh Kumar", role: "Regular Donor", quote: "Seeing the smiles on these children's faces fills my heart. The transparency here is remarkable." },
+              { name: "Priya Sharma", role: "Volunteer", quote: "The Earn & Support initiative is brilliant. I can help while supporting local businesses." },
+              { name: "Dr. Anil Deshmukh", role: "Trustee", quote: "This institution has been a beacon of hope for countless children in need." },
             ].map((testimonial, index) => (
               <div key={index} className="bg-card rounded-2xl p-8 shadow-soft">
                 <div className="flex gap-1 mb-4">
@@ -234,17 +240,17 @@ const Index = () => {
             Together, We Can Change Lives
           </h2>
           <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Join our community of donors, volunteers, and supporters making a real difference in children's lives.
+            Join our community of donors, volunteers, and supporters.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button variant="heroOutline" size="xl" asChild>
-              <Link to="/donate">
+              <Link to={`${basePath}/donate`}>
                 <Heart className="w-5 h-5" />
                 Start Giving Today
               </Link>
             </Button>
             <Button variant="heroOutline" size="xl" asChild>
-              <Link to="/contact">
+              <Link to={`${basePath}/contact`}>
                 Contact Us
               </Link>
             </Button>
