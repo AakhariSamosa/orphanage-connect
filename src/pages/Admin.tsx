@@ -4,13 +4,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import Layout from '@/components/layout/Layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, Users, Heart, Package, Calendar, MessageSquare, TrendingUp } from 'lucide-react';
+import { Loader2, Users, Heart, Package, Calendar, MessageSquare, TrendingUp, Building } from 'lucide-react';
 import AdminNeeds from '@/components/admin/AdminNeeds';
 import AdminDonations from '@/components/admin/AdminDonations';
 import AdminEvents from '@/components/admin/AdminEvents';
 import AdminMessages from '@/components/admin/AdminMessages';
 import AdminVendors from '@/components/admin/AdminVendors';
 import AdminUsers from '@/components/admin/AdminUsers';
+import AdminAshrams from '@/components/admin/AdminAshrams';
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -105,8 +106,9 @@ export default function Admin() {
           </div>
 
           {/* Admin Tabs */}
-          <Tabs defaultValue="needs" className="w-full">
-            <TabsList className="grid grid-cols-3 md:grid-cols-6 w-full mb-8">
+          <Tabs defaultValue="ashrams" className="w-full">
+            <TabsList className="grid grid-cols-3 md:grid-cols-7 w-full mb-8">
+              {isAdmin && <TabsTrigger value="ashrams">Ashrams</TabsTrigger>}
               <TabsTrigger value="needs">Children Needs</TabsTrigger>
               <TabsTrigger value="donations">Donations</TabsTrigger>
               <TabsTrigger value="vendors">Vendors</TabsTrigger>
@@ -114,6 +116,12 @@ export default function Admin() {
               <TabsTrigger value="messages">Messages</TabsTrigger>
               {isAdmin && <TabsTrigger value="users">Users</TabsTrigger>}
             </TabsList>
+
+            {isAdmin && (
+              <TabsContent value="ashrams">
+                <AdminAshrams />
+              </TabsContent>
+            )}
 
             <TabsContent value="needs">
               <AdminNeeds />
