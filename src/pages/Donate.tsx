@@ -175,6 +175,7 @@ const Donate = () => {
         payment_method: paymentMethod,
         is_recurring: donationType === "monthly",
         message: formData.message || undefined,
+        ashram_id: ashramId || undefined,
       });
       setFlowStep("money_done");
       toast.success("Thank you for your generous donation!");
