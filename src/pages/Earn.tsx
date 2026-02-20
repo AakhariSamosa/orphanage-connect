@@ -1,34 +1,37 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag, Utensils, Paintbrush, Star, ArrowRight, Heart, Users, TrendingUp, Store } from "lucide-react";
+import { ShoppingBag, Utensils, Paintbrush, Star, ArrowRight, Heart, Users, TrendingUp, Store, Wrench, Package, Loader2 } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useAshram } from "@/contexts/AshramContext";
+import { useVendors, useProducts } from "@/hooks/useVendors";
 import handicraftImage from "@/assets/earn-handicraft.jpg";
 import kitchenImage from "@/assets/earn-kitchen.jpg";
 
-const categories = [
-  { id: "kitchen", name: "Cloud Kitchens", icon: Utensils, count: 12 },
-  { id: "crafts", name: "Handmade Crafts", icon: Paintbrush, count: 24 },
-  { id: "products", name: "Local Products", icon: ShoppingBag, count: 18 },
-];
-
-const featuredVendors = [
-  { id: 1, name: "Amma's Kitchen", category: "Cloud Kitchen", description: "Authentic home-cooked meals delivered fresh daily.", image: kitchenImage, rating: 4.8, reviews: 156, charityPercent: 15 },
-  { id: 2, name: "Craft with Love", category: "Handmade Crafts", description: "Beautiful crochet items, macrame decor, and handwoven products.", image: handicraftImage, rating: 4.9, reviews: 89, charityPercent: 20 },
-  { id: 3, name: "Organic Spice Co.", category: "Local Products", description: "Pure, organic spices sourced directly from local farmers.", image: handicraftImage, rating: 4.7, reviews: 203, charityPercent: 10 },
-];
-
-const products = [
-  { id: 1, name: "Homemade Mango Pickle", price: 250, vendor: "Amma's Kitchen", image: "🥫", charityPercent: 15 },
-  { id: 2, name: "Crochet Baby Blanket", price: 1200, vendor: "Craft with Love", image: "🧶", charityPercent: 20 },
-  { id: 3, name: "Organic Turmeric (500g)", price: 180, vendor: "Organic Spice Co.", image: "🌿", charityPercent: 10 },
-  { id: 4, name: "Weekly Meal Box (7 days)", price: 1500, vendor: "Amma's Kitchen", image: "🍱", charityPercent: 15 },
-  { id: 5, name: "Macrame Wall Hanging", price: 850, vendor: "Craft with Love", image: "🎨", charityPercent: 20 },
-  { id: 6, name: "Red Chilli Powder (1kg)", price: 320, vendor: "Organic Spice Co.", image: "🌶️", charityPercent: 10 },
-];
+const categoryMeta: Record<string, { name: string; icon: React.ElementType }> = {
+  cloud_kitchen: { name: "Cloud Kitchens", icon: Utensils },
+  handicrafts: { name: "Handmade Crafts", icon: Paintbrush },
+  homemade: { name: "Homemade Products", icon: ShoppingBag },
+  services: { name: "Services", icon: Wrench },
+  other: { name: "Other", icon: Package },
+};
 
 const Earn = () => {
-  const { basePath } = useAshram();
+  const { basePath, ashramId } = useAshram();
+  const { data: vendors, isLoading: vendorsLoading } = useVendors(undefined, ashramId);
+  const { data: products, isLoading: productsLoading } = useProducts();
+
+  // Build category counts from real vendors
+  const categoryCounts = (vendors || []).reduce((acc, v) => {
+    acc[v.category] = (acc[v.category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const categories = Object.entries(categoryCounts).map(([id, count]) => ({
+    id,
+    name: categoryMeta[id]?.name || id,
+    icon: categoryMeta[id]?.icon || Package,
+    count,
+  }));
 
   return (
     <Layout>
@@ -41,11 +44,13 @@ const Earn = () => {
               <h1 className="heading-display mb-6">Shop to <span className="text-accent">Support</span> Our Children</h1>
               <p className="text-body mb-6">Buy from local vendors, and a percentage automatically goes to support our ashram.</p>
               <div className="grid grid-cols-3 gap-4 mb-8">
-                <div className="text-center p-4 bg-card rounded-xl shadow-soft"><Store className="w-6 h-6 text-accent mx-auto mb-2" /><div className="text-2xl font-display font-bold">50+</div><div className="text-xs text-muted-foreground">Vendors</div></div>
-                <div className="text-center p-4 bg-card rounded-xl shadow-soft"><Heart className="w-6 h-6 text-primary mx-auto mb-2" /><div className="text-2xl font-display font-bold">₹5L+</div><div className="text-xs text-muted-foreground">Donated</div></div>
-                <div className="text-center p-4 bg-card rounded-xl shadow-soft"><Users className="w-6 h-6 text-gold mx-auto mb-2" /><div className="text-2xl font-display font-bold">2K+</div><div className="text-xs text-muted-foreground">Buyers</div></div>
+                <div className="text-center p-4 bg-card rounded-xl shadow-soft"><Store className="w-6 h-6 text-accent mx-auto mb-2" /><div className="text-2xl font-display font-bold">{vendors?.length || 0}</div><div className="text-xs text-muted-foreground">Vendors</div></div>
+                <div className="text-center p-4 bg-card rounded-xl shadow-soft"><Heart className="w-6 h-6 text-primary mx-auto mb-2" /><div className="text-2xl font-display font-bold">{products?.length || 0}</div><div className="text-xs text-muted-foreground">Products</div></div>
+                <div className="text-center p-4 bg-card rounded-xl shadow-soft"><Users className="w-6 h-6 text-gold mx-auto mb-2" /><div className="text-2xl font-display font-bold">{categories.length}</div><div className="text-xs text-muted-foreground">Categories</div></div>
               </div>
-              <Button variant="sage" size="lg">Start Shopping<ArrowRight className="w-4 h-4" /></Button>
+              <Button variant="sage" size="lg" asChild>
+                <a href="#products-section">Start Shopping<ArrowRight className="w-4 h-4" /></a>
+              </Button>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <img src={kitchenImage} alt="Cloud Kitchen" className="rounded-2xl shadow-card w-full h-64 object-cover" />
@@ -74,54 +79,84 @@ const Earn = () => {
       <section className="section-padding bg-background">
         <div className="container-custom">
           <div className="text-center mb-12"><span className="text-accent font-medium mb-2 block">Browse By</span><h2 className="heading-section">Categories</h2></div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {categories.map((category) => (
-              <div key={category.id} className="bg-card rounded-2xl p-8 shadow-soft card-hover text-center cursor-pointer">
-                <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4"><category.icon className="w-8 h-8 text-accent" /></div>
-                <h3 className="heading-card mb-2">{category.name}</h3><p className="text-muted-foreground text-sm">{category.count} vendors</p>
-              </div>
-            ))}
-          </div>
+          {categories.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {categories.map((category) => (
+                <div key={category.id} className="bg-card rounded-2xl p-8 shadow-soft card-hover text-center cursor-pointer">
+                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4"><category.icon className="w-8 h-8 text-accent" /></div>
+                  <h3 className="heading-card mb-2">{category.name}</h3><p className="text-muted-foreground text-sm">{category.count} vendor{category.count !== 1 ? 's' : ''}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground">No vendors registered yet.</p>
+          )}
         </div>
       </section>
 
-      {/* Featured Vendors */}
+      {/* Vendors */}
       <section className="section-padding bg-secondary/30">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-12">
-            <div><span className="text-accent font-medium mb-2 block">Featured</span><h2 className="heading-section">Top Vendors</h2></div>
+            <div><span className="text-accent font-medium mb-2 block">Featured</span><h2 className="heading-section">Our Vendors</h2></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredVendors.map((vendor) => (
-              <div key={vendor.id} className="bg-card rounded-2xl overflow-hidden shadow-card card-hover">
-                <div className="relative h-48"><img src={vendor.image} alt={vendor.name} className="w-full h-full object-cover" /><div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent text-accent-foreground text-sm font-medium">{vendor.charityPercent}% to charity</div></div>
-                <div className="p-6">
-                  <span className="text-xs text-muted-foreground uppercase tracking-wide">{vendor.category}</span>
-                  <h3 className="heading-card mt-1 mb-2">{vendor.name}</h3><p className="text-muted-foreground text-sm mb-4">{vendor.description}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1"><Star className="w-4 h-4 fill-gold text-gold" /><span className="font-medium">{vendor.rating}</span><span className="text-sm text-muted-foreground">({vendor.reviews})</span></div>
-                    <Button variant="ghost" size="sm">Visit Shop <ArrowRight className="w-4 h-4" /></Button>
+          {vendorsLoading ? (
+            <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
+          ) : vendors && vendors.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {vendors.map((vendor) => (
+                <div key={vendor.id} className="bg-card rounded-2xl overflow-hidden shadow-card card-hover">
+                  <div className="relative h-48">
+                    <img src={vendor.cover_image_url || vendor.logo_url || handicraftImage} alt={vendor.business_name} className="w-full h-full object-cover" />
+                    <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent text-accent-foreground text-sm font-medium">{vendor.charity_percentage}% to charity</div>
+                  </div>
+                  <div className="p-6">
+                    <span className="text-xs text-muted-foreground uppercase tracking-wide">{categoryMeta[vendor.category]?.name || vendor.category}</span>
+                    <h3 className="heading-card mt-1 mb-2">{vendor.business_name}</h3>
+                    {vendor.description && <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{vendor.description}</p>}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1"><Star className="w-4 h-4 fill-gold text-gold" /><span className="text-sm text-muted-foreground">Verified</span></div>
+                      <Button variant="ghost" size="sm">View Products <ArrowRight className="w-4 h-4" /></Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground py-8">No vendors available yet. Be the first to join!</p>
+          )}
         </div>
       </section>
 
       {/* Products */}
-      <section className="section-padding bg-background">
+      <section id="products-section" className="section-padding bg-background">
         <div className="container-custom">
-          <div className="text-center mb-12"><span className="text-accent font-medium mb-2 block">Shop Now</span><h2 className="heading-section">Popular Products</h2></div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {products.map((product) => (
-              <div key={product.id} className="bg-card rounded-xl p-4 shadow-soft card-hover">
-                <div className="text-4xl text-center mb-3">{product.image}</div><h4 className="font-medium text-sm mb-1 line-clamp-2">{product.name}</h4>
-                <p className="text-xs text-muted-foreground mb-2">{product.vendor}</p>
-                <div className="flex items-center justify-between"><span className="font-semibold text-primary">₹{product.price}</span><span className="text-xs text-accent">{product.charityPercent}%</span></div>
-              </div>
-            ))}
-          </div>
+          <div className="text-center mb-12"><span className="text-accent font-medium mb-2 block">Shop Now</span><h2 className="heading-section">Available Products</h2></div>
+          {productsLoading ? (
+            <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
+          ) : products && products.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {products.map((product) => (
+                <div key={product.id} className="bg-card rounded-xl overflow-hidden shadow-soft card-hover">
+                  {product.image_url ? (
+                    <img src={product.image_url} alt={product.name} className="w-full h-40 object-cover" />
+                  ) : (
+                    <div className="w-full h-40 bg-accent/10 flex items-center justify-center"><ShoppingBag className="w-10 h-10 text-accent/40" /></div>
+                  )}
+                  <div className="p-4">
+                    <h4 className="font-medium text-sm mb-1 line-clamp-2">{product.name}</h4>
+                    {product.vendor && <p className="text-xs text-muted-foreground mb-2">{product.vendor.business_name}</p>}
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-primary">₹{product.price}</span>
+                      {product.vendor && <span className="text-xs text-accent">{product.vendor.charity_percentage}%</span>}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground py-8">No products available yet.</p>
+          )}
         </div>
       </section>
 
