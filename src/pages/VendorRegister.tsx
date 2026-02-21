@@ -115,8 +115,11 @@ export default function VendorRegister() {
                 Your vendor account "{existingVendor.business_name}" is {existingVendor.is_verified ? 'verified and active' : 'pending verification'}.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <Button onClick={() => navigate('/earn')} className="w-full">
+            <CardContent className="space-y-3">
+              <Button onClick={() => navigate('/ashram/shradhanand/vendor/dashboard')} className="w-full">
+                Manage Your Products
+              </Button>
+              <Button variant="outline" onClick={() => navigate('/ashram/shradhanand/earn')} className="w-full">
                 Go to Marketplace
               </Button>
             </CardContent>

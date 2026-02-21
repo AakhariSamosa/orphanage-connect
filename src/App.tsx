@@ -19,6 +19,8 @@ import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import Feed from "./pages/Feed";
 import VendorRegister from "./pages/VendorRegister";
+import VendorDashboard from "./pages/VendorDashboard";
+import VendorDetail from "./pages/VendorDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,8 @@ function AshramRoutes() {
         <Route path="/donate" element={<Donate />} />
         <Route path="/earn" element={<Earn />} />
         <Route path="/vendor/register" element={<VendorRegister />} />
+        <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+        <Route path="/vendor/:vendorId" element={<VendorDetail />} />
         <Route path="/events" element={<Events />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/feed" element={<Feed />} />
