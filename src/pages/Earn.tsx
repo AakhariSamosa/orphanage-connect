@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShoppingBag, Utensils, Paintbrush, Star, ArrowRight, Heart, Users, TrendingUp, Store, Wrench, Package, Loader2 } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ const categoryMeta: Record<string, { name: string; icon: React.ElementType }> = 
 };
 
 const Earn = () => {
+  const navigate = useNavigate();
   const { basePath, ashramId } = useAshram();
   const { data: vendors, isLoading: vendorsLoading } = useVendors(undefined, ashramId);
   const { data: products, isLoading: productsLoading } = useProducts();
@@ -105,7 +106,7 @@ const Earn = () => {
           ) : vendors && vendors.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {vendors.map((vendor) => (
-                <div key={vendor.id} className="bg-card rounded-2xl overflow-hidden shadow-card card-hover">
+                <div key={vendor.id} className="bg-card rounded-2xl overflow-hidden shadow-card card-hover cursor-pointer" onClick={() => navigate(`${basePath}/vendor/${vendor.id}`)}>
                   <div className="relative h-48">
                     <img src={vendor.cover_image_url || vendor.logo_url || handicraftImage} alt={vendor.business_name} className="w-full h-full object-cover" />
                     <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent text-accent-foreground text-sm font-medium">{vendor.charity_percentage}% to charity</div>
