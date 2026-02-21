@@ -18,7 +18,7 @@ const categoryMeta: Record<string, { name: string; icon: React.ElementType }> = 
 const Earn = () => {
   const navigate = useNavigate();
   const { basePath, ashramId } = useAshram();
-  const { data: vendors, isLoading: vendorsLoading } = useVendors(undefined, ashramId);
+  const { data: vendors, isLoading: vendorsLoading } = useVendors(undefined);
   const { data: products, isLoading: productsLoading } = useProducts();
 
   // Build category counts from real vendors
