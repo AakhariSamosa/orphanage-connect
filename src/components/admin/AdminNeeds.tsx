@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Plus, Edit, Trash2, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAshrams } from '@/hooks/useAshrams';
 import type { Database } from '@/integrations/supabase/types';
 
 type NeedCategory = Database['public']['Enums']['need_category'];
@@ -28,6 +29,7 @@ interface Need {
   estimated_cost: number | null;
   image_url: string | null;
   is_active: boolean;
+  ashram_id: string | null;
   created_at: string;
 }
 
@@ -39,6 +41,8 @@ export default function AdminNeeds() {
   const { user } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingNeed, setEditingNeed] = useState<Need | null>(null);
+  const [selectedAshramFilter, setSelectedAshramFilter] = useState<string>('all');
+  const { data: ashrams } = useAshrams();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -47,6 +51,7 @@ export default function AdminNeeds() {
     quantity_needed: 1,
     estimated_cost: '',
     image_url: '',
+    ashram_id: '',
   });
 
   const { data: needs, isLoading } = useQuery({
@@ -71,6 +76,7 @@ export default function AdminNeeds() {
         quantity_needed: data.quantity_needed,
         estimated_cost: data.estimated_cost ? parseFloat(data.estimated_cost) : null,
         image_url: data.image_url || null,
+        ashram_id: data.ashram_id || null,
         created_by: user?.id,
       });
       if (error) throw error;
@@ -95,6 +101,7 @@ export default function AdminNeeds() {
           quantity_needed: data.quantity_needed,
           estimated_cost: data.estimated_cost ? parseFloat(data.estimated_cost) : null,
           image_url: data.image_url || null,
+          ashram_id: data.ashram_id || null,
         })
         .eq('id', id);
       if (error) throw error;
@@ -128,6 +135,7 @@ export default function AdminNeeds() {
       quantity_needed: 1,
       estimated_cost: '',
       image_url: '',
+      ashram_id: '',
     });
     setEditingNeed(null);
     setIsDialogOpen(false);
@@ -143,6 +151,7 @@ export default function AdminNeeds() {
       quantity_needed: need.quantity_needed,
       estimated_cost: need.estimated_cost?.toString() || '',
       image_url: need.image_url || '',
+      ashram_id: need.ashram_id || '',
     });
     setIsDialogOpen(true);
   };
@@ -172,25 +181,45 @@ export default function AdminNeeds() {
       </div>
     );
   }
+  const filteredNeeds = needs?.filter(n => 
+    selectedAshramFilter === 'all' || n.ashram_id === selectedAshramFilter
+  );
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold">Children's Needs ({needs?.length || 0})</h2>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={() => { resetForm(); setIsDialogOpen(true); }}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Need
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-lg">
-            <DialogHeader>
-              <DialogTitle>{editingNeed ? 'Edit Need' : 'Add New Need'}</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="title">Title *</Label>
+      <div className="flex flex-col gap-4 mb-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">Children's Needs ({filteredNeeds?.length || 0})</h2>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button onClick={() => { resetForm(); setIsDialogOpen(true); }}>
+                <Plus className="w-4 h-4 mr-2" />
+                Add Need
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-lg">
+              <DialogHeader>
+                <DialogTitle>{editingNeed ? 'Edit Need' : 'Add New Need'}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <Label>Ashram *</Label>
+                  <Select
+                    value={formData.ashram_id}
+                    onValueChange={(value) => setFormData({ ...formData, ashram_id: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an ashram" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ashrams?.map((a) => (
+                        <SelectItem key={a.id} value={a.id}>{a.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="title">Title *</Label>
                 <Input
                   id="title"
                   value={formData.title}
@@ -289,10 +318,32 @@ export default function AdminNeeds() {
             </form>
           </DialogContent>
         </Dialog>
+        </div>
+      </div>
+
+      {/* Ashram filter */}
+      <div className="flex gap-2 overflow-x-auto pb-2">
+        <button
+          onClick={() => setSelectedAshramFilter('all')}
+          className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${selectedAshramFilter === 'all' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
+        >
+          All Ashrams
+        </button>
+        {ashrams?.map((a) => (
+          <button
+            key={a.id}
+            onClick={() => setSelectedAshramFilter(a.id)}
+            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${selectedAshramFilter === a.id ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
+          >
+            {a.name}
+          </button>
+        ))}
       </div>
 
       <div className="grid gap-4">
-        {needs?.map((need) => (
+        {filteredNeeds?.map((need) => {
+          const ashramName = ashrams?.find(a => a.id === need.ashram_id)?.name;
+          return (
           <Card key={need.id}>
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between">
@@ -301,6 +352,7 @@ export default function AdminNeeds() {
                   <div className="flex items-center gap-2 mt-1">
                     <Badge variant={getUrgencyColor(need.urgency)}>{need.urgency}</Badge>
                     <Badge variant="outline">{need.category.replace('_', ' ')}</Badge>
+                    {ashramName && <Badge variant="secondary">{ashramName}</Badge>}
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -327,8 +379,9 @@ export default function AdminNeeds() {
               </div>
             </CardContent>
           </Card>
-        ))}
-        {needs?.length === 0 && (
+        );
+        })}
+        {filteredNeeds?.length === 0 && (
           <Card>
             <CardContent className="py-12 text-center text-muted-foreground">
               No needs added yet. Click "Add Need" to create one.
