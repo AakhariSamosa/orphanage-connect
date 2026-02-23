@@ -287,6 +287,48 @@ export type Database = {
           },
         ]
       }
+      donor_visits: {
+        Row: {
+          created_at: string
+          donor_email: string
+          donor_id: string | null
+          donor_name: string
+          donor_phone: string | null
+          id: string
+          message: string | null
+          need_id: string | null
+          status: string
+          time_slot: string
+          visit_date: string
+        }
+        Insert: {
+          created_at?: string
+          donor_email: string
+          donor_id?: string | null
+          donor_name: string
+          donor_phone?: string | null
+          id?: string
+          message?: string | null
+          need_id?: string | null
+          status?: string
+          time_slot: string
+          visit_date: string
+        }
+        Update: {
+          created_at?: string
+          donor_email?: string
+          donor_id?: string | null
+          donor_name?: string
+          donor_phone?: string | null
+          id?: string
+          message?: string | null
+          need_id?: string | null
+          status?: string
+          time_slot?: string
+          visit_date?: string
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           ashram_id: string | null
