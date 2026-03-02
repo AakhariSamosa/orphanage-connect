@@ -45,7 +45,7 @@ export function useCreateDonorVisit() {
 
   return useMutation({
     mutationFn: async (input: CreateDonorVisitInput) => {
-      const { data, error } = await (supabase as any)
+      const { data, error } = await supabase
         .from('donor_visits')
         .insert({
           ...input,
