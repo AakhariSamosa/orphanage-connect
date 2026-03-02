@@ -106,8 +106,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       setIsLoading(false);
     }).catch(() => {
-      // Clear stale session on fetch failure
-      supabase.auth.signOut().catch(() => {});
+      // Clear stale auth keys directly from localStorage
+      // (signOut() won't work if network is blocked by token refresh loop)
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('sb-')) {
+          localStorage.removeItem(key);
+        }
+      });
+      setUser(null);
+      setSession(null);
+      setProfile(null);
+      setRoles([]);
       setIsLoading(false);
     });
 
