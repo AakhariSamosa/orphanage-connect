@@ -68,6 +68,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    // Safety timeout - never stay loading forever
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 8000);
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
@@ -100,9 +105,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       
       setIsLoading(false);
+    }).catch(() => {
+      // Clear stale session on fetch failure
+      supabase.auth.signOut().catch(() => {});
+      setIsLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      clearTimeout(timeout);
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signUp = async (email: string, password: string, fullName?: string) => {
