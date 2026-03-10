@@ -419,7 +419,7 @@ const Donate = () => {
               Your visit is confirmed. Please come on the chosen date and time with the required items. Your contribution will directly match our current needs.
             </p>
             <Button variant="outline" asChild>
-              <Link to="/needs">View required items</Link>
+              <Link to={`${basePath}/needs`}>View required items</Link>
             </Button>
           </div>
         </div>
