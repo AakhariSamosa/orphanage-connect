@@ -3,10 +3,18 @@ import { Heart, Users, Gift, Briefcase, ArrowRight, Star, HandHeart, GraduationC
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useAshram } from "@/contexts/AshramContext";
+import { AnimatedSection } from "@/components/AnimatedSection";
+import { useScrollAnimation, useCountUp } from "@/hooks/useScrollAnimation";
 import heroImage from "@/assets/hero-children.jpg";
+
+const StatNumber = ({ value, suffix = "", isVisible }: { value: number; suffix?: string; isVisible: boolean }) => {
+  const count = useCountUp(value, 2000, isVisible);
+  return <>{count}{suffix}</>;
+};
 
 const Index = () => {
   const { ashram, basePath, isLoading } = useAshram();
+  const statsAnimation = useScrollAnimation();
 
   if (isLoading) {
     return (
@@ -33,10 +41,10 @@ const Index = () => {
   }
 
   const impactStats = [
-    { number: "150+", label: "Children Cared For" },
-    { number: "72", label: "Years of Service" },
-    { number: "5000+", label: "Lives Touched" },
-    { number: "₹2Cr+", label: "Donated" },
+    { number: 150, suffix: "+", label: "Children Cared For" },
+    { number: 72, suffix: "", label: "Years of Service" },
+    { number: 5000, suffix: "+", label: "Lives Touched" },
+    { number: 2, suffix: "Cr+", label: "Donated (₹)" },
   ];
 
   const needs = [
@@ -72,39 +80,41 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center">
+      {/* Hero Section - with parallax-style overlay */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
             src={ashram.cover_image_url || heroImage}
             alt={ashram.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover scale-105 animate-[fade-in_1.5s_ease-out]"
           />
           <div className="image-overlay" />
+          {/* Animated gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/20 to-transparent" />
         </div>
-        
+
         <div className="container-custom relative z-10">
-          <div className="max-w-3xl animate-fade-up">
-            <span className="inline-block px-4 py-2 rounded-full bg-primary/20 backdrop-blur-sm text-primary-foreground text-sm font-medium mb-6">
+          <div className="max-w-3xl">
+            <span className="inline-block px-4 py-2 rounded-full bg-primary/20 backdrop-blur-sm text-primary-foreground text-sm font-medium mb-6 animate-fade-up" style={{ animationDelay: "200ms" }}>
               {[ashram.city, ashram.state].filter(Boolean).join(', ') || 'India'}
             </span>
-            <h1 className="heading-display text-primary-foreground mb-6">
+            <h1 className="heading-display text-primary-foreground mb-6 animate-fade-up" style={{ animationDelay: "400ms", opacity: 0 }}>
               {ashram.name}
             </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
+            <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed animate-fade-up" style={{ animationDelay: "600ms", opacity: 0 }}>
               {ashram.description || 'Join us in nurturing children with love, education, and hope for a brighter future.'}
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="xl" asChild>
+            <div className="flex flex-wrap gap-4 animate-fade-up" style={{ animationDelay: "800ms", opacity: 0 }}>
+              <Button variant="hero" size="xl" asChild className="group">
                 <Link to={`${basePath}/donate`}>
-                  <Heart className="w-5 h-5" />
+                  <Heart className="w-5 h-5 group-hover:scale-125 transition-transform" />
                   Donate Now
                 </Link>
               </Button>
-              <Button variant="heroOutline" size="xl" asChild>
+              <Button variant="heroOutline" size="xl" asChild className="group">
                 <Link to={`${basePath}/needs`}>
                   See Children's Needs
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
             </div>
@@ -118,14 +128,19 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Impact Stats */}
-      <section className="bg-earth text-primary-foreground py-12">
+      {/* Impact Stats - with count-up animation */}
+      <section className="bg-earth text-primary-foreground py-12 overflow-hidden" ref={statsAnimation.ref}>
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {impactStats.map((stat, index) => (
-              <div key={index} className="text-center">
+              <div
+                key={index}
+                className={`text-center scroll-hidden ${statsAnimation.isVisible ? 'scroll-visible' : ''}`}
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
                 <div className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-primary mb-2">
-                  {stat.number}
+                  {stat.suffix === "Cr+" ? "₹" : ""}
+                  <StatNumber value={stat.number} suffix={stat.suffix} isVisible={statsAnimation.isVisible} />
                 </div>
                 <div className="text-sm md:text-base opacity-80">{stat.label}</div>
               </div>
@@ -135,79 +150,83 @@ const Index = () => {
       </section>
 
       {/* Current Needs Preview */}
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-background overflow-hidden">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <AnimatedSection className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-primary font-medium mb-2 block">Current Priorities</span>
             <h2 className="heading-section mb-4">Children's Immediate Needs</h2>
             <p className="text-body">
               Help us provide essential items our children need right now.
             </p>
-          </div>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {needs.map((need, index) => (
-              <div key={index} className="bg-card rounded-2xl p-6 shadow-card card-hover relative overflow-hidden">
-                {need.urgent && (
-                  <span className="absolute top-4 right-4 px-2 py-1 bg-destructive/10 text-destructive text-xs font-medium rounded-full">
-                    Urgent
-                  </span>
-                )}
-                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <need.icon className="w-7 h-7 text-primary" />
+              <AnimatedSection key={index} delay={index * 120} direction="scale">
+                <div className="bg-card rounded-2xl p-6 shadow-card card-hover relative overflow-hidden group h-full">
+                  {need.urgent && (
+                    <span className="absolute top-4 right-4 px-2 py-1 bg-destructive/10 text-destructive text-xs font-medium rounded-full animate-pulse-soft">
+                      Urgent
+                    </span>
+                  )}
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
+                    <need.icon className="w-7 h-7 text-primary" />
+                  </div>
+                  <h3 className="heading-card mb-2">{need.title}</h3>
+                  <p className="text-muted-foreground text-sm">{need.description}</p>
                 </div>
-                <h3 className="heading-card mb-2">{need.title}</h3>
-                <p className="text-muted-foreground text-sm">{need.description}</p>
-              </div>
+              </AnimatedSection>
             ))}
           </div>
 
-          <div className="text-center mt-10">
-            <Button variant="outline" size="lg" asChild>
+          <AnimatedSection className="text-center mt-10">
+            <Button variant="outline" size="lg" asChild className="group">
               <Link to={`${basePath}/needs`}>
                 View All Needs
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Ways to Help */}
-      <section className="section-padding bg-secondary/30">
+      <section className="section-padding bg-secondary/30 overflow-hidden">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <AnimatedSection className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-primary font-medium mb-2 block">Get Involved</span>
             <h2 className="heading-section mb-4">Ways You Can Help</h2>
             <p className="text-body">
               Whether through donations, fulfilling needs, or supporting local vendors—every action creates impact.
             </p>
-          </div>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {waysToHelp.map((way, index) => (
-              <Link key={index} to={way.link} className="bg-card rounded-2xl p-8 shadow-card card-hover group">
-                <div className={`w-16 h-16 rounded-2xl ${way.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                  <way.icon className="w-8 h-8" />
-                </div>
-                <h3 className="heading-card mb-3">{way.title}</h3>
-                <p className="text-muted-foreground mb-4">{way.description}</p>
-                <span className="text-primary font-medium inline-flex items-center gap-2 group-hover:gap-3 transition-all">
-                  Learn More <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
+              <AnimatedSection key={index} delay={index * 150} direction={index === 0 ? "left" : index === 2 ? "right" : "up"}>
+                <Link to={way.link} className="bg-card rounded-2xl p-8 shadow-card card-hover group block h-full">
+                  <div className={`w-16 h-16 rounded-2xl ${way.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                    <way.icon className="w-8 h-8" />
+                  </div>
+                  <h3 className="heading-card mb-3">{way.title}</h3>
+                  <p className="text-muted-foreground mb-4">{way.description}</p>
+                  <span className="text-primary font-medium inline-flex items-center gap-2 group-hover:gap-3 transition-all">
+                    Learn More <ArrowRight className="w-4 h-4" />
+                  </span>
+                </Link>
+              </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-background overflow-hidden">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <AnimatedSection className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-primary font-medium mb-2 block">Testimonials</span>
             <h2 className="heading-section mb-4">What People Say</h2>
-          </div>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -215,27 +234,34 @@ const Index = () => {
               { name: "Priya Sharma", role: "Volunteer", quote: "The Earn & Support initiative is brilliant. I can help while supporting local businesses." },
               { name: "Dr. Anil Deshmukh", role: "Trustee", quote: "This institution has been a beacon of hope for countless children in need." },
             ].map((testimonial, index) => (
-              <div key={index} className="bg-card rounded-2xl p-8 shadow-soft">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
+              <AnimatedSection key={index} delay={index * 150} direction="scale">
+                <div className="bg-card rounded-2xl p-8 shadow-soft group hover:shadow-elevated transition-shadow duration-300 h-full">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-primary text-primary group-hover:scale-110 transition-transform" style={{ transitionDelay: `${i * 50}ms` }} />
+                    ))}
+                  </div>
+                  <p className="text-foreground mb-6 italic">"{testimonial.quote}"</p>
+                  <div>
+                    <p className="font-semibold">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </div>
                 </div>
-                <p className="text-foreground mb-6 italic">"{testimonial.quote}"</p>
-                <div>
-                  <p className="font-semibold">{testimonial.name}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                </div>
-              </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-20 md:py-32">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary to-gold" />
-        <div className="container-custom relative z-10 text-center">
+      <section className="relative py-20 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary to-gold animate-gradient" />
+        {/* Decorative floating shapes */}
+        <div className="absolute top-10 left-10 w-20 h-20 rounded-full bg-primary-foreground/5 animate-float" />
+        <div className="absolute bottom-10 right-20 w-32 h-32 rounded-full bg-primary-foreground/5 animate-float" style={{ animationDelay: "1.5s" }} />
+        <div className="absolute top-1/2 right-1/4 w-16 h-16 rounded-full bg-primary-foreground/5 animate-float" style={{ animationDelay: "0.8s" }} />
+
+        <AnimatedSection className="container-custom relative z-10 text-center">
           <h2 className="heading-section text-primary-foreground mb-6">
             Together, We Can Change Lives
           </h2>
@@ -243,19 +269,19 @@ const Index = () => {
             Join our community of donors, volunteers, and supporters.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button variant="heroOutline" size="xl" asChild>
+            <Button variant="heroOutline" size="xl" asChild className="group">
               <Link to={`${basePath}/donate`}>
-                <Heart className="w-5 h-5" />
+                <Heart className="w-5 h-5 group-hover:scale-125 transition-transform" />
                 Start Giving Today
               </Link>
             </Button>
-            <Button variant="heroOutline" size="xl" asChild>
+            <Button variant="heroOutline" size="xl" asChild className="group">
               <Link to={`${basePath}/contact`}>
                 Contact Us
               </Link>
             </Button>
           </div>
-        </div>
+        </AnimatedSection>
       </section>
     </Layout>
   );
