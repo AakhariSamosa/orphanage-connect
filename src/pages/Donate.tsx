@@ -222,7 +222,7 @@ const Donate = () => {
               Our required items list is updated in real time. You can fulfill specific needs by visiting in person, donating money, or sending items.
             </p>
             <Button variant="outline" className="mb-8" asChild>
-              <Link to="/needs">
+              <Link to={`${basePath}/needs`}>
                 <Package className="w-4 h-4 mr-2" />
                 View required items list
                 <ArrowRight className="w-4 h-4 ml-2" />
