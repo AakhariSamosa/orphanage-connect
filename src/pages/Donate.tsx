@@ -76,7 +76,7 @@ const Donate = () => {
   const createDonation = useCreateDonation();
   const createVisit = useCreateDonorVisit();
   const createItemDonation = useCreateItemDonation();
-  const { ashramId } = useAshram();
+  const { ashramId, basePath } = useAshram();
   const { data: needs } = useNeeds(undefined, ashramId);
 
   const [flowStep, setFlowStep] = useState<FlowStep>("start");
