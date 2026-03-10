@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Edit, Trash2, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAshrams } from '@/hooks/useAshrams';
+import { ImageUpload } from '@/components/ImageUpload';
 import type { Database } from '@/integrations/supabase/types';
 
 type NeedCategory = Database['public']['Enums']['need_category'];
