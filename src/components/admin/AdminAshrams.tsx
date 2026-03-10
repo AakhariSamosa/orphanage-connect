@@ -23,6 +23,8 @@ interface AshramForm {
   phone: string;
   email: string;
   website: string;
+  logo_url: string;
+  cover_image_url: string;
   primary_color: string;
   secondary_color: string;
   accent_color: string;
