@@ -181,6 +181,22 @@ export default function AdminAshrams() {
               <Switch checked={form.is_active} onCheckedChange={(v) => setForm({ ...form, is_active: v })} />
               <Label>Active</Label>
             </div>
+            <div className="md:col-span-2">
+              <Label>Logo</Label>
+              <ImageUpload
+                onUpload={(url) => setForm({ ...form, logo_url: url })}
+                currentImage={form.logo_url || null}
+                folder="ashram-logos"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <Label>Cover Image</Label>
+              <ImageUpload
+                onUpload={(url) => setForm({ ...form, cover_image_url: url })}
+                currentImage={form.cover_image_url || null}
+                folder="ashram-covers"
+              />
+            </div>
             <div><Label>Primary Color</Label><Input type="color" value={form.primary_color} onChange={(e) => setForm({ ...form, primary_color: e.target.value })} className="mt-1 h-10" /></div>
             <div><Label>Secondary Color</Label><Input type="color" value={form.secondary_color} onChange={(e) => setForm({ ...form, secondary_color: e.target.value })} className="mt-1 h-10" /></div>
             <div><Label>Accent Color</Label><Input type="color" value={form.accent_color} onChange={(e) => setForm({ ...form, accent_color: e.target.value })} className="mt-1 h-10" /></div>
