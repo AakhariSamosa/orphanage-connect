@@ -33,7 +33,7 @@ interface AshramForm {
 
 const emptyForm: AshramForm = {
   name: '', slug: '', description: '', address: '', city: '', state: '',
-  phone: '', email: '', website: '',
+  phone: '', email: '', website: '', logo_url: '', cover_image_url: '',
   primary_color: '#E8710A', secondary_color: '#FFF7ED', accent_color: '#F97316',
   is_active: true,
 };
