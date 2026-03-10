@@ -616,7 +616,7 @@ const Donate = () => {
               Thank you. Your donation will be used to purchase the required items, so your contribution matches our actual needs.
             </p>
             <Button variant="outline" asChild>
-              <Link to="/needs">View current needs</Link>
+              <Link to={`${basePath}/needs`}>View current needs</Link>
             </Button>
           </div>
         </div>
