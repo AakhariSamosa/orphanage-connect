@@ -67,6 +67,8 @@ export default function AdminAshrams() {
       phone: ashram.phone || '',
       email: ashram.email || '',
       website: ashram.website || '',
+      logo_url: ashram.logo_url || '',
+      cover_image_url: ashram.cover_image_url || '',
       primary_color: ashram.primary_color || '#E8710A',
       secondary_color: ashram.secondary_color || '#FFF7ED',
       accent_color: ashram.accent_color || '#F97316',
