@@ -426,6 +426,53 @@ export type Database = {
           },
         ]
       }
+      item_donations: {
+        Row: {
+          created_at: string
+          delivery_note: string | null
+          donor_email: string
+          donor_id: string | null
+          donor_name: string
+          donor_phone: string | null
+          id: string
+          items_description: string
+          need_id: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          delivery_note?: string | null
+          donor_email: string
+          donor_id?: string | null
+          donor_name: string
+          donor_phone?: string | null
+          id?: string
+          items_description: string
+          need_id?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          delivery_note?: string | null
+          donor_email?: string
+          donor_id?: string | null
+          donor_name?: string
+          donor_phone?: string | null
+          id?: string
+          items_description?: string
+          need_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "item_donations_need_id_fkey"
+            columns: ["need_id"]
+            isOneToOne: false
+            referencedRelation: "children_needs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           buyer_id: string | null
