@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Plus, Edit, Trash2, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAshrams } from '@/hooks/useAshrams';
+import { ImageUpload } from '@/components/ImageUpload';
 import type { Database } from '@/integrations/supabase/types';
 
 type NeedCategory = Database['public']['Enums']['need_category'];
@@ -296,12 +297,11 @@ export default function AdminNeeds() {
                 </div>
               </div>
               <div>
-                <Label htmlFor="image">Image URL</Label>
-                <Input
-                  id="image"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                  placeholder="https://..."
+                <Label>Image</Label>
+                <ImageUpload
+                  onUpload={(url) => setFormData({ ...formData, image_url: url })}
+                  currentImage={formData.image_url || null}
+                  folder="needs"
                 />
               </div>
               <div className="flex justify-end gap-2">

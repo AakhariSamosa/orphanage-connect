@@ -76,7 +76,7 @@ const Donate = () => {
   const createDonation = useCreateDonation();
   const createVisit = useCreateDonorVisit();
   const createItemDonation = useCreateItemDonation();
-  const { ashramId } = useAshram();
+  const { ashramId, basePath } = useAshram();
   const { data: needs } = useNeeds(undefined, ashramId);
 
   const [flowStep, setFlowStep] = useState<FlowStep>("start");
@@ -222,7 +222,7 @@ const Donate = () => {
               Our required items list is updated in real time. You can fulfill specific needs by visiting in person, donating money, or sending items.
             </p>
             <Button variant="outline" className="mb-8" asChild>
-              <Link to="/needs">
+              <Link to={`${basePath}/needs`}>
                 <Package className="w-4 h-4 mr-2" />
                 View required items list
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -419,7 +419,7 @@ const Donate = () => {
               Your visit is confirmed. Please come on the chosen date and time with the required items. Your contribution will directly match our current needs.
             </p>
             <Button variant="outline" asChild>
-              <Link to="/needs">View required items</Link>
+              <Link to={`${basePath}/needs`}>View required items</Link>
             </Button>
           </div>
         </div>
@@ -616,7 +616,7 @@ const Donate = () => {
               Thank you. Your donation will be used to purchase the required items, so your contribution matches our actual needs.
             </p>
             <Button variant="outline" asChild>
-              <Link to="/needs">View current needs</Link>
+              <Link to={`${basePath}/needs`}>View current needs</Link>
             </Button>
           </div>
         </div>
@@ -721,7 +721,7 @@ const Donate = () => {
               We've recorded your item donation. Once the items reach us, they'll be matched to our current needs. Thank you!
             </p>
             <Button variant="outline" asChild>
-              <Link to="/needs">View current needs</Link>
+              <Link to={`${basePath}/needs`}>View current needs</Link>
             </Button>
           </div>
         </div>
@@ -777,13 +777,13 @@ const Donate = () => {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button variant="outline" size="lg" asChild>
-                <Link to="/needs">Children's Needs</Link>
+                <Link to={`${basePath}/needs`}>Children's Needs</Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link to="/earn">Earn & Support</Link>
+                <Link to={`${basePath}/earn`}>Earn & Support</Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link to="/contact">Contact Us</Link>
+                <Link to={`${basePath}/contact`}>Contact Us</Link>
               </Button>
             </div>
           </div>
