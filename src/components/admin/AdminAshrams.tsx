@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Loader2, Plus, Edit, Trash2, Users, Building } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { ImageUpload } from '@/components/ImageUpload';
 
 interface AshramForm {
   name: string;
@@ -22,6 +23,8 @@ interface AshramForm {
   phone: string;
   email: string;
   website: string;
+  logo_url: string;
+  cover_image_url: string;
   primary_color: string;
   secondary_color: string;
   accent_color: string;
@@ -30,7 +33,7 @@ interface AshramForm {
 
 const emptyForm: AshramForm = {
   name: '', slug: '', description: '', address: '', city: '', state: '',
-  phone: '', email: '', website: '',
+  phone: '', email: '', website: '', logo_url: '', cover_image_url: '',
   primary_color: '#E8710A', secondary_color: '#FFF7ED', accent_color: '#F97316',
   is_active: true,
 };
@@ -64,6 +67,8 @@ export default function AdminAshrams() {
       phone: ashram.phone || '',
       email: ashram.email || '',
       website: ashram.website || '',
+      logo_url: ashram.logo_url || '',
+      cover_image_url: ashram.cover_image_url || '',
       primary_color: ashram.primary_color || '#E8710A',
       secondary_color: ashram.secondary_color || '#FFF7ED',
       accent_color: ashram.accent_color || '#F97316',
@@ -175,6 +180,22 @@ export default function AdminAshrams() {
             <div className="flex items-center gap-2">
               <Switch checked={form.is_active} onCheckedChange={(v) => setForm({ ...form, is_active: v })} />
               <Label>Active</Label>
+            </div>
+            <div className="md:col-span-2">
+              <Label>Logo</Label>
+              <ImageUpload
+                onUpload={(url) => setForm({ ...form, logo_url: url })}
+                currentImage={form.logo_url || null}
+                folder="ashram-logos"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <Label>Cover Image</Label>
+              <ImageUpload
+                onUpload={(url) => setForm({ ...form, cover_image_url: url })}
+                currentImage={form.cover_image_url || null}
+                folder="ashram-covers"
+              />
             </div>
             <div><Label>Primary Color</Label><Input type="color" value={form.primary_color} onChange={(e) => setForm({ ...form, primary_color: e.target.value })} className="mt-1 h-10" /></div>
             <div><Label>Secondary Color</Label><Input type="color" value={form.secondary_color} onChange={(e) => setForm({ ...form, secondary_color: e.target.value })} className="mt-1 h-10" /></div>
