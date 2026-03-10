@@ -777,13 +777,13 @@ const Donate = () => {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button variant="outline" size="lg" asChild>
-                <Link to="/needs">Children's Needs</Link>
+                <Link to={`${basePath}/needs`}>Children's Needs</Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link to="/earn">Earn & Support</Link>
+                <Link to={`${basePath}/earn`}>Earn & Support</Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link to="/contact">Contact Us</Link>
+                <Link to={`${basePath}/contact`}>Contact Us</Link>
               </Button>
             </div>
           </div>

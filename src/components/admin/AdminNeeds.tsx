@@ -297,12 +297,11 @@ export default function AdminNeeds() {
                 </div>
               </div>
               <div>
-                <Label htmlFor="image">Image URL</Label>
-                <Input
-                  id="image"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                  placeholder="https://..."
+                <Label>Image</Label>
+                <ImageUpload
+                  onUpload={(url) => setFormData({ ...formData, image_url: url })}
+                  currentImage={formData.image_url || null}
+                  folder="needs"
                 />
               </div>
               <div className="flex justify-end gap-2">
