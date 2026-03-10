@@ -721,7 +721,7 @@ const Donate = () => {
               We've recorded your item donation. Once the items reach us, they'll be matched to our current needs. Thank you!
             </p>
             <Button variant="outline" asChild>
-              <Link to="/needs">View current needs</Link>
+              <Link to={`${basePath}/needs`}>View current needs</Link>
             </Button>
           </div>
         </div>
