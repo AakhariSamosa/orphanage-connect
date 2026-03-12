@@ -119,7 +119,13 @@ const Needs = () => {
                 const CategoryIcon = getCategoryIcon(need.category);
                 const progress = getProgress(need);
                 return (
-                  <div key={need.id} className="bg-card rounded-2xl p-6 shadow-soft card-hover">
+                  <div key={need.id} className="bg-card rounded-2xl shadow-soft card-hover overflow-hidden">
+                    {need.image_url && (
+                      <div className="w-full h-44 overflow-hidden">
+                        <img src={need.image_url} alt={need.title} className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                    <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                         <CategoryIcon className="w-6 h-6 text-primary" />
@@ -146,6 +152,7 @@ const Needs = () => {
                     <Button variant="default" className="w-full" asChild>
                       <Link to={`${basePath}/donate?need=${need.id}`}>Fulfill This Need</Link>
                     </Button>
+                    </div>
                   </div>
                 );
               })}

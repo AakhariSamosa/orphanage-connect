@@ -12,6 +12,7 @@ import AdminMessages from '@/components/admin/AdminMessages';
 import AdminVendors from '@/components/admin/AdminVendors';
 import AdminUsers from '@/components/admin/AdminUsers';
 import AdminAshrams from '@/components/admin/AdminAshrams';
+import AdminPlatformSettings from '@/components/admin/AdminPlatformSettings';
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -106,8 +107,9 @@ export default function Admin() {
           </div>
 
           {/* Admin Tabs */}
-          <Tabs defaultValue="ashrams" className="w-full">
-            <TabsList className="grid grid-cols-3 md:grid-cols-7 w-full mb-8">
+          <Tabs defaultValue={isAdmin ? "settings" : "needs"} className="w-full">
+            <TabsList className="grid grid-cols-3 md:grid-cols-8 w-full mb-8">
+              {isAdmin && <TabsTrigger value="settings">Platform</TabsTrigger>}
               {isAdmin && <TabsTrigger value="ashrams">Ashrams</TabsTrigger>}
               <TabsTrigger value="needs">Children Needs</TabsTrigger>
               <TabsTrigger value="donations">Donations</TabsTrigger>
@@ -116,6 +118,12 @@ export default function Admin() {
               <TabsTrigger value="messages">Messages</TabsTrigger>
               {isAdmin && <TabsTrigger value="users">Users</TabsTrigger>}
             </TabsList>
+
+            {isAdmin && (
+              <TabsContent value="settings">
+                <AdminPlatformSettings />
+              </TabsContent>
+            )}
 
             {isAdmin && (
               <TabsContent value="ashrams">

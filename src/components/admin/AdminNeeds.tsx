@@ -372,6 +372,9 @@ export default function AdminNeeds() {
               </div>
             </CardHeader>
             <CardContent>
+              {need.image_url && (
+                <img src={need.image_url} alt={need.title} className="w-16 h-16 rounded-lg object-cover mr-3" />
+              )}
               {need.description && <p className="text-sm text-muted-foreground mb-2">{need.description}</p>}
               <div className="flex items-center gap-4 text-sm">
                 <span>Qty: {need.quantity_fulfilled}/{need.quantity_needed}</span>
