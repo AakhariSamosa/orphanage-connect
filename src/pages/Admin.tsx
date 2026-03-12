@@ -12,6 +12,7 @@ import AdminMessages from '@/components/admin/AdminMessages';
 import AdminVendors from '@/components/admin/AdminVendors';
 import AdminUsers from '@/components/admin/AdminUsers';
 import AdminAshrams from '@/components/admin/AdminAshrams';
+import AdminPlatformSettings from '@/components/admin/AdminPlatformSettings';
 
 export default function Admin() {
   const navigate = useNavigate();

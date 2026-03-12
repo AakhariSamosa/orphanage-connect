@@ -152,6 +152,7 @@ const Needs = () => {
                     <Button variant="default" className="w-full" asChild>
                       <Link to={`${basePath}/donate?need=${need.id}`}>Fulfill This Need</Link>
                     </Button>
+                    </div>
                   </div>
                 );
               })}
