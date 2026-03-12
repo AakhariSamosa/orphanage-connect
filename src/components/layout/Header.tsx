@@ -124,18 +124,18 @@ const Header = ({ ashramName, ashramLogo, basePath = '' }: HeaderProps) => {
                     </>
                   )}
                   {(isAdmin || isSubAdmin) && basePath && (
-                    <>
-                      <DropdownMenuItem asChild>
-                        <Link to={`${basePath}/admin`} className="cursor-pointer">
-                          <Settings className="mr-2 h-4 w-4" />
-                          Ashram Admin
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={toggleDevMode} className="cursor-pointer">
-                        <Palette className="mr-2 h-4 w-4" />
-                        {isDevMode ? 'Hide Theme Switcher' : 'Show Theme Switcher'}
-                      </DropdownMenuItem>
-                    </>
+                    <DropdownMenuItem asChild>
+                      <Link to={`${basePath}/admin`} className="cursor-pointer">
+                        <Settings className="mr-2 h-4 w-4" />
+                        Ashram Admin
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  {isAdmin && basePath && (
+                    <DropdownMenuItem onClick={toggleDevMode} className="cursor-pointer">
+                      <Palette className="mr-2 h-4 w-4" />
+                      {isDevMode ? 'Hide Theme Switcher' : 'Show Theme Switcher'}
+                    </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-destructive">
