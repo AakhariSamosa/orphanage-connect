@@ -22,6 +22,7 @@ import VendorRegister from "./pages/VendorRegister";
 import VendorDashboard from "./pages/VendorDashboard";
 import VendorDetail from "./pages/VendorDetail";
 import NotFound from "./pages/NotFound";
+import TemplateShowcase from "./pages/TemplateShowcase";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,7 @@ const App = () => (
               <Route path="/" element={<AshramLanding />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/templates" element={<TemplateShowcase />} />
               <Route path="/ashram/:ashramSlug/*" element={<AshramRoutes />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
