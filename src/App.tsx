@@ -60,6 +60,7 @@ const App = () => (
               <Route path="/" element={<AshramLanding />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/templates" element={<TemplateShowcase />} />
               <Route path="/ashram/:ashramSlug/*" element={<AshramRoutes />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
