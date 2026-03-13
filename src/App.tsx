@@ -22,6 +22,7 @@ import VendorRegister from "./pages/VendorRegister";
 import VendorDashboard from "./pages/VendorDashboard";
 import VendorDetail from "./pages/VendorDetail";
 import NotFound from "./pages/NotFound";
+import TemplateShowcase from "./pages/TemplateShowcase";
 
 const queryClient = new QueryClient();
 
