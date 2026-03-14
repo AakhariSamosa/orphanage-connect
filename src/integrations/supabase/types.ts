@@ -62,8 +62,10 @@ export type Database = {
           phone: string | null
           primary_color: string | null
           secondary_color: string | null
+          selected_template: string | null
           slug: string
           state: string | null
+          template_data: Json | null
           updated_at: string
           website: string | null
         }
@@ -82,8 +84,10 @@ export type Database = {
           phone?: string | null
           primary_color?: string | null
           secondary_color?: string | null
+          selected_template?: string | null
           slug: string
           state?: string | null
+          template_data?: Json | null
           updated_at?: string
           website?: string | null
         }
@@ -102,8 +106,10 @@ export type Database = {
           phone?: string | null
           primary_color?: string | null
           secondary_color?: string | null
+          selected_template?: string | null
           slug?: string
           state?: string | null
+          template_data?: Json | null
           updated_at?: string
           website?: string | null
         }
