@@ -17,6 +17,8 @@ export interface Ashram {
   primary_color: string | null;
   secondary_color: string | null;
   accent_color: string | null;
+  selected_template: string | null;
+  template_data: Record<string, any> | null;
   is_active: boolean;
   created_at: string;
   updated_at: string;

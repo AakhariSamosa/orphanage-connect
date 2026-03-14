@@ -36,6 +36,7 @@ const Header = ({ ashramName, ashramLogo, basePath = '' }: HeaderProps) => {
     { name: "Feed", href: `${basePath}/feed` },
     { name: "Events", href: `${basePath}/events` },
     { name: "Contact", href: `${basePath}/contact` },
+    { name: "Templates", href: "/templates" },
   ];
 
   const handleSignOut = async () => { await signOut(); navigate('/'); };
