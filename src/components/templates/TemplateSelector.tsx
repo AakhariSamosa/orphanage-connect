@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Check, Eye, Layout, Sparkles } from 'lucide-react';
+import { Check, Eye, Layout } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { templateConfigs, type TemplateVariant } from './types';
@@ -31,7 +30,7 @@ export function TemplateSelector({ selectedTemplate, onSelect, onPreview }: Temp
             <Card
               key={template.id}
               className={cn(
-                'cursor-pointer transition-all duration-300 overflow-hidden group',
+                'cursor-pointer transition-all duration-500 overflow-hidden group',
                 isSelected
                   ? 'ring-2 ring-primary shadow-elevated'
                   : 'hover:shadow-card hover:-translate-y-1'
@@ -40,31 +39,31 @@ export function TemplateSelector({ selectedTemplate, onSelect, onPreview }: Temp
             >
               {/* Mini preview */}
               <div
-                className="h-32 relative overflow-hidden"
+                className="h-36 relative overflow-hidden"
                 style={{ background: template.preview.bg }}
               >
                 {/* Decorative elements */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="space-y-2 w-3/4">
+                  <div className="space-y-2.5 w-3/4">
                     <div
-                      className="h-3 rounded-full w-1/2"
+                      className="h-3 rounded-full w-1/2 opacity-90"
                       style={{ background: template.preview.accent }}
                     />
                     <div
-                      className="h-2 rounded-full w-3/4 opacity-30"
+                      className="h-2 rounded-full w-3/4 opacity-25"
                       style={{ background: template.preview.text }}
                     />
                     <div
-                      className="h-2 rounded-full w-2/3 opacity-20"
+                      className="h-2 rounded-full w-2/3 opacity-15"
                       style={{ background: template.preview.text }}
                     />
-                    <div className="flex gap-2 pt-2">
+                    <div className="flex gap-2 pt-3">
                       <div
-                        className="h-6 w-16 rounded"
+                        className="h-7 w-20 rounded-lg"
                         style={{ background: template.preview.accent }}
                       />
                       <div
-                        className="h-6 w-16 rounded border opacity-40"
+                        className="h-7 w-20 rounded-lg border opacity-30"
                         style={{ borderColor: template.preview.text }}
                       />
                     </div>
@@ -73,17 +72,17 @@ export function TemplateSelector({ selectedTemplate, onSelect, onPreview }: Temp
 
                 {/* Selected badge */}
                 {isSelected && (
-                  <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-primary flex items-center justify-center">
+                  <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-primary flex items-center justify-center shadow-lg">
                     <Check className="w-4 h-4 text-primary-foreground" />
                   </div>
                 )}
 
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-all duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
                   <Button
                     variant="secondary"
                     size="sm"
-                    className="backdrop-blur-sm"
+                    className="backdrop-blur-md shadow-lg"
                     onClick={(e) => {
                       e.stopPropagation();
                       onPreview(template.id);
@@ -101,7 +100,7 @@ export function TemplateSelector({ selectedTemplate, onSelect, onPreview }: Temp
                     <h4 className="font-semibold text-foreground flex items-center gap-2">
                       {template.name}
                       {isSelected && (
-                        <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-semibold">
                           Active
                         </span>
                       )}
