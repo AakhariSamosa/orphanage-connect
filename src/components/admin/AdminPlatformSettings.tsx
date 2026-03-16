@@ -8,15 +8,7 @@ import { ImageUpload } from '@/components/ImageUpload';
 import { useTheme, themes as themeList } from '@/contexts/ThemeContext';
 import { Palette, Type, Image, Video, Save, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
-
-interface PlatformSettings {
-  platformLogo: string;
-  platformName: string;
-  textSizeScale: string;
-  backgroundImageUrl: string;
-  backgroundVideoUrl: string;
-  backgroundOverlayOpacity: string;
-}
+import { usePlatformSettings, useUpdatePlatformSettings, type PlatformSettings } from '@/hooks/usePlatformSettings';
 
 const defaultSettings: PlatformSettings = {
   platformLogo: '/logo.png',
@@ -29,18 +21,22 @@ const defaultSettings: PlatformSettings = {
 
 export default function AdminPlatformSettings() {
   const { currentTheme, setTheme } = useTheme();
-  const [settings, setSettings] = useState<PlatformSettings>(() => {
-    const saved = localStorage.getItem('platform-settings');
-    return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
-  });
+  const { data: savedSettings, isLoading } = usePlatformSettings();
+  const updateMutation = useUpdatePlatformSettings();
+  const [settings, setSettings] = useState<PlatformSettings>(defaultSettings);
   const [hasChanges, setHasChanges] = useState(false);
 
+  // Sync from DB once loaded
   useEffect(() => {
-    // Apply text size
+    if (savedSettings) {
+      setSettings(savedSettings);
+    }
+  }, [savedSettings]);
+
+  useEffect(() => {
     const scale = parseInt(settings.textSizeScale) / 100;
     document.documentElement.style.fontSize = `${scale * 16}px`;
 
-    // Apply background
     const body = document.body;
     if (settings.backgroundImageUrl) {
       body.style.backgroundImage = `url(${settings.backgroundImageUrl})`;
@@ -52,17 +48,27 @@ export default function AdminPlatformSettings() {
     }
   }, [settings.textSizeScale, settings.backgroundImageUrl]);
 
-  const handleSave = () => {
-    localStorage.setItem('platform-settings', JSON.stringify(settings));
-    // Dispatch custom event so Header picks up logo/name changes
-    window.dispatchEvent(new CustomEvent('platform-settings-changed', { detail: settings }));
-    toast.success('Platform settings saved!');
-    setHasChanges(false);
+  const handleSave = async () => {
+    try {
+      await updateMutation.mutateAsync(settings);
+      // Also keep localStorage as fast cache for initial render
+      localStorage.setItem('platform-settings', JSON.stringify(settings));
+      window.dispatchEvent(new CustomEvent('platform-settings-changed', { detail: settings }));
+      toast.success('Platform settings saved!');
+      setHasChanges(false);
+    } catch {
+      toast.error('Failed to save settings. Are you an admin?');
+    }
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     setSettings(defaultSettings);
-    localStorage.removeItem('platform-settings');
+    try {
+      await updateMutation.mutateAsync(defaultSettings);
+      localStorage.setItem('platform-settings', JSON.stringify(defaultSettings));
+    } catch {
+      // ignore
+    }
     document.documentElement.style.fontSize = '16px';
     document.body.style.backgroundImage = '';
     window.dispatchEvent(new CustomEvent('platform-settings-changed', { detail: defaultSettings }));
@@ -75,6 +81,10 @@ export default function AdminPlatformSettings() {
     setHasChanges(true);
   };
 
+  if (isLoading) {
+    return <div className="text-muted-foreground text-center py-8">Loading settings...</div>;
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -84,9 +94,9 @@ export default function AdminPlatformSettings() {
             <RotateCcw className="w-4 h-4 mr-2" />
             Reset
           </Button>
-          <Button size="sm" onClick={handleSave} disabled={!hasChanges}>
+          <Button size="sm" onClick={handleSave} disabled={!hasChanges || updateMutation.isPending}>
             <Save className="w-4 h-4 mr-2" />
-            Save Changes
+            {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
           </Button>
         </div>
       </div>

@@ -3,13 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useAshram } from "@/contexts/AshramContext";
 import { BackButton } from "@/components/BackButton";
-
-interface PlatformSettings {
-  platformLogo: string;
-  platformName: string;
-  backgroundVideoUrl: string;
-  backgroundOverlayOpacity: string;
-}
+import { usePlatformSettings, type PlatformSettings } from "@/hooks/usePlatformSettings";
 
 function AshramAwareLayout({ children }: { children: ReactNode }) {
   let ashramName: string | undefined;
@@ -25,19 +19,22 @@ function AshramAwareLayout({ children }: { children: ReactNode }) {
     // Not within AshramProvider
   }
 
-  const [platformSettings, setPlatformSettings] = useState<PlatformSettings | null>(() => {
-    const saved = localStorage.getItem('platform-settings');
-    return saved ? JSON.parse(saved) : null;
-  });
+  // Load from DB (cached via react-query)
+  const { data: dbSettings } = usePlatformSettings();
+
+  // Also listen for live changes from admin panel
+  const [liveSettings, setLiveSettings] = useState<PlatformSettings | null>(null);
 
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail;
-      setPlatformSettings(detail);
+      setLiveSettings(detail);
     };
     window.addEventListener('platform-settings-changed', handler);
     return () => window.removeEventListener('platform-settings-changed', handler);
   }, []);
+
+  const platformSettings = liveSettings || dbSettings || null;
 
   // Use platform settings for logo/name if no ashram-specific ones
   const displayName = ashramName || platformSettings?.platformName;
