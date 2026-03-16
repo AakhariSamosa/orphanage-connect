@@ -949,6 +949,206 @@
   }
 
   /* ========================================
+     TEMPLATE: Premium Dark
+     Luxury dark theme with gold accents
+     ======================================== */
+  [data-template="premium-dark"] {
+    --background: 240 20% 4%;
+    --foreground: 40 20% 95%;
+    --card: 240 15% 8%;
+    --card-foreground: 40 20% 95%;
+    --popover: 240 15% 8%;
+    --popover-foreground: 40 20% 95%;
+    --primary: 36 50% 60%;
+    --primary-foreground: 240 20% 4%;
+    --secondary: 240 12% 14%;
+    --secondary-foreground: 40 20% 90%;
+    --muted: 240 10% 12%;
+    --muted-foreground: 40 10% 55%;
+    --accent: 36 60% 50%;
+    --accent-foreground: 240 20% 4%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 10% 15%;
+    --input: 240 10% 15%;
+    --ring: 36 50% 60%;
+    --saffron: 36 50% 60%;
+    --saffron-light: 36 55% 72%;
+    --saffron-dark: 36 55% 48%;
+    --earth: 240 15% 8%;
+    --earth-light: 240 12% 18%;
+    --cream: 40 20% 95%;
+    --sage: 36 60% 50%;
+    --sage-light: 36 50% 65%;
+    --terracotta: 20 50% 45%;
+    --gold: 42 70% 55%;
+    --gradient-warm: linear-gradient(135deg, hsl(36, 50%, 60%) 0%, hsl(42, 70%, 55%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(240, 15%, 8%) 0%, hsl(240, 12%, 18%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(36, 60%, 50%) 0%, hsl(36, 50%, 65%) 100%);
+    --shadow-soft: 0 4px 20px -4px rgba(200, 169, 126, 0.15);
+    --shadow-card: 0 8px 30px -8px rgba(200, 169, 126, 0.12);
+    --shadow-elevated: 0 20px 50px -15px rgba(200, 169, 126, 0.20);
+    --sidebar-background: 240 15% 8%;
+    --sidebar-foreground: 40 20% 95%;
+    --sidebar-primary: 36 50% 60%;
+    --sidebar-primary-foreground: 240 20% 4%;
+    --sidebar-accent: 240 12% 14%;
+    --sidebar-accent-foreground: 40 20% 90%;
+    --sidebar-border: 240 10% 15%;
+    --sidebar-ring: 36 50% 60%;
+  }
+
+  /* ========================================
+     TEMPLATE: Modern Product
+     Clean SaaS indigo on light background
+     ======================================== */
+  [data-template="modern-product"] {
+    --background: 220 30% 98%;
+    --foreground: 222 47% 11%;
+    --card: 220 25% 97%;
+    --card-foreground: 222 47% 11%;
+    --popover: 220 25% 97%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 239 84% 67%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 30% 94%;
+    --secondary-foreground: 222 47% 15%;
+    --muted: 220 20% 92%;
+    --muted-foreground: 220 15% 42%;
+    --accent: 239 90% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 18% 90%;
+    --input: 220 18% 90%;
+    --ring: 239 84% 67%;
+    --saffron: 239 84% 67%;
+    --saffron-light: 239 80% 78%;
+    --saffron-dark: 239 88% 55%;
+    --earth: 222 47% 11%;
+    --earth-light: 222 35% 22%;
+    --cream: 220 30% 97%;
+    --sage: 239 90% 58%;
+    --sage-light: 239 70% 72%;
+    --terracotta: 239 70% 50%;
+    --gold: 45 60% 50%;
+    --gradient-warm: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(239, 90%, 58%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(222, 47%, 11%) 0%, hsl(222, 35%, 22%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(239, 70%, 72%) 100%);
+    --shadow-soft: 0 4px 20px -4px rgba(99, 102, 241, 0.15);
+    --shadow-card: 0 8px 30px -8px rgba(99, 102, 241, 0.12);
+    --shadow-elevated: 0 20px 50px -15px rgba(99, 102, 241, 0.20);
+    --sidebar-background: 220 25% 97%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 239 84% 67%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 30% 94%;
+    --sidebar-accent-foreground: 222 47% 15%;
+    --sidebar-border: 220 18% 90%;
+    --sidebar-ring: 239 84% 67%;
+  }
+
+  /* ========================================
+     TEMPLATE: Minimal Portfolio
+     Warm stone tones, soft and refined
+     ======================================== */
+  [data-template="minimal-portfolio"] {
+    --background: 40 20% 98%;
+    --foreground: 24 10% 10%;
+    --card: 40 18% 97%;
+    --card-foreground: 24 10% 10%;
+    --popover: 40 18% 97%;
+    --popover-foreground: 24 10% 10%;
+    --primary: 25 6% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 15% 94%;
+    --secondary-foreground: 24 10% 15%;
+    --muted: 40 10% 91%;
+    --muted-foreground: 24 8% 45%;
+    --accent: 25 10% 35%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 10% 88%;
+    --input: 40 10% 88%;
+    --ring: 25 6% 45%;
+    --saffron: 25 6% 45%;
+    --saffron-light: 25 8% 58%;
+    --saffron-dark: 25 8% 35%;
+    --earth: 24 10% 10%;
+    --earth-light: 24 8% 22%;
+    --cream: 40 20% 96%;
+    --sage: 25 10% 35%;
+    --sage-light: 25 8% 55%;
+    --terracotta: 18 20% 42%;
+    --gold: 38 30% 52%;
+    --gradient-warm: linear-gradient(135deg, hsl(25, 6%, 45%) 0%, hsl(25, 10%, 58%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(24, 10%, 10%) 0%, hsl(24, 8%, 22%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(25, 10%, 35%) 0%, hsl(25, 8%, 55%) 100%);
+    --shadow-soft: 0 4px 20px -4px rgba(120, 113, 108, 0.12);
+    --shadow-card: 0 8px 30px -8px rgba(120, 113, 108, 0.10);
+    --shadow-elevated: 0 20px 50px -15px rgba(120, 113, 108, 0.16);
+    --sidebar-background: 40 18% 97%;
+    --sidebar-foreground: 24 10% 10%;
+    --sidebar-primary: 25 6% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 15% 94%;
+    --sidebar-accent-foreground: 24 10% 15%;
+    --sidebar-border: 40 10% 88%;
+    --sidebar-ring: 25 6% 45%;
+  }
+
+  /* ========================================
+     TEMPLATE: Creative Agency
+     Bold dark navy with vibrant pink accents
+     ======================================== */
+  [data-template="creative-agency"] {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 96%;
+    --card: 222 40% 12%;
+    --card-foreground: 210 40% 96%;
+    --popover: 222 40% 12%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 330 81% 70%;
+    --primary-foreground: 222 47% 8%;
+    --secondary: 222 30% 16%;
+    --secondary-foreground: 210 40% 90%;
+    --muted: 222 25% 14%;
+    --muted-foreground: 210 20% 55%;
+    --accent: 262 83% 68%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 222 20% 18%;
+    --input: 222 20% 18%;
+    --ring: 330 81% 70%;
+    --saffron: 330 81% 70%;
+    --saffron-light: 330 75% 80%;
+    --saffron-dark: 330 85% 58%;
+    --earth: 222 40% 12%;
+    --earth-light: 222 30% 22%;
+    --cream: 210 40% 96%;
+    --sage: 262 83% 68%;
+    --sage-light: 262 70% 78%;
+    --terracotta: 330 65% 55%;
+    --gold: 42 70% 55%;
+    --gradient-warm: linear-gradient(135deg, hsl(330, 81%, 70%) 0%, hsl(262, 83%, 68%) 100%);
+    --gradient-earth: linear-gradient(135deg, hsl(222, 40%, 12%) 0%, hsl(222, 30%, 22%) 100%);
+    --gradient-hope: linear-gradient(135deg, hsl(330, 81%, 70%) 0%, hsl(330, 75%, 80%) 100%);
+    --shadow-soft: 0 4px 20px -4px rgba(244, 114, 182, 0.18);
+    --shadow-card: 0 8px 30px -8px rgba(244, 114, 182, 0.15);
+    --shadow-elevated: 0 20px 50px -15px rgba(244, 114, 182, 0.22);
+    --sidebar-background: 222 40% 12%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 330 81% 70%;
+    --sidebar-primary-foreground: 222 47% 8%;
+    --sidebar-accent: 222 30% 16%;
+    --sidebar-accent-foreground: 210 40% 90%;
+    --sidebar-border: 222 20% 18%;
+    --sidebar-ring: 330 81% 70%;
+  }
+
+  /* ========================================
      DARK MODE (applies to all themes)
      ======================================== */
   .dark {
