@@ -7,7 +7,7 @@ interface FooterProps {
   basePath?: string;
 }
 
-const Footer = ({ ashramName, basePath = '' }: FooterProps) => {
+const Footer = ({ ashramName, ashramLogo, basePath = '' }: FooterProps) => {
   const displayName = ashramName || 'Ashram Platform';
   
   const quickLinks = basePath ? [
