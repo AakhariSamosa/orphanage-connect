@@ -3,6 +3,7 @@ import { Heart, Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube } fro
 
 interface FooterProps {
   ashramName?: string;
+  ashramLogo?: string | null;
   basePath?: string;
 }
 
