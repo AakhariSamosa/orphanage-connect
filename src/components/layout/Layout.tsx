@@ -70,7 +70,7 @@ function AshramAwareLayout({ children }: { children: ReactNode }) {
         </div>
         {children}
       </main>
-      <Footer ashramName={ashramName} basePath={basePath} />
+      <Footer ashramName={displayName} ashramLogo={displayLogo} basePath={basePath} />
     </div>
   );
 }

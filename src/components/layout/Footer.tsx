@@ -29,7 +29,7 @@ const Footer = ({ ashramName, ashramLogo, basePath = '' }: FooterProps) => {
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-full overflow-hidden">
-                <img src="/logo.png" alt={displayName} className="w-full h-full object-contain" />
+                <img src={ashramLogo || '/logo.png'} alt={displayName} className="w-full h-full object-contain" />
               </div>
               <div>
                 <h3 className="font-display text-xl font-semibold">{displayName}</h3>
